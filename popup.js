@@ -1,31 +1,119 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const fillButton = document.getElementById('fillButton');
+document.addEventListener('DOMContentLoaded', function() {
+  const fillButton = document.getElementById('fillButton');
 
-    fillButton.addEventListener('click', async () => {
-        // 1. Lấy thông tin về tab đang hoạt động
-        let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  // Lấy template từ đâu đó (ví dụ, template cố định hoặc từ chrome.storage)
+  const templateToFill = `PR title: [ComponentName] Description
+## Description
+Please provide a concise description of your changes. Include the context and purpose of this
+PR.
+- Why is this change needed?
+- What problem does it solve?
+- Any additional context?
+---
+## Type of change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Enhancement/Refactor
+- [ ] Documentation update
+- [ ] Other (please describe):
+---
+## Related work items
+Link to the related ADO work item(s):
+Fixes #[Work Item ID]
+---
+## Checklist for Developer Self-Test
+### Code Quality & Functionality
+- [ ] Code builds successfully without errors or warnings
+- [ ] Linting passes locally
+- [ ] No unused code or console logs
+### UI/UX (if applicable)
+- [ ] Verified layout in different screen sizes (desktop, tablet, mobile)
+### Functionality & Business Logic
+- [ ] Main functionality works as expected
+- [ ] Edge cases handled (e.g., null values, error states)
+- [ ] Error and loading states are properly handled
+### Evidence
+Attach screenshots, GIFs, or screen recordings demonstrating:
+- [ ] The main flow working
+- [ ] Edge case handling
+- [ ] Any relevant UI changes
+---
+## Screenshots / Demo evidence
+> Please attach images or links to a short video demonstrating the changes in action.
+---
+## Additional notes for reviewer
+- Are there specific parts you want reviewers to focus on?
+- Any known issues?
+---
+## Deployment notes (if applicable)
+- Are there any migrations or special deployment steps needed?
+## ⚠ Known issues / Remaining work
+- List any known bugs, limitations, or incomplete items that you are aware of.
+- Include workarounds if any.
+Example:
+- [ ] Need to fix layout glitch on Safari in a separate PR
+- [ ] Placeholder data for some fields (final data integration pending)
+- [ ] Accessibility audit not fully covered yet`; // Hoặc lấy từ chrome.storage.sync.get('prTemplate') nếu bạn muốn dùng template đã lưu
 
-        // 2. Thực thi một hàm trên tab đó
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            function: fillDescription,
-        });
+  fillButton.addEventListener('click', async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    // Truyền templateToFill như một đối số cho hàm fillDescription
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: fillDescription,
+      args: [templateToFill] // Truyền dữ liệu vào hàm sẽ được inject
     });
+  });
 });
 
-// 3. Đây là hàm sẽ được "tiêm" và chạy trên trang web
-function fillDescription() {
-    // Tìm ô textarea dựa trên placeholder của nó
-    const placeholderText = "Describe the code that is being reviewed";
-    const textarea = document.querySelector(`textarea[placeholder="${placeholderText}"]`);
+// Hàm này sẽ được inject và chạy trong ngữ cảnh của tab đang hoạt động.
+// Nó nhận 'textToType' làm đối số.
+// KHÔNG ĐẶT HÀM NÀY BÊN TRONG document.addEventListener NỮA!
+// Nó cần độc lập để chrome.scripting.executeScript có thể truy cập.
+function fillDescription(textToType) {
+  // Tìm ô textarea dựa trên placeholder của nó
+  const placeholderText = "Describe the code that is being reviewed";
+  const textarea = document.querySelector(`textarea[placeholder="${placeholderText}"]`);
 
-    // Nếu tìm thấy, điền text vào
-    if (textarea) {
-        textarea.value = "Hello word";
-        console.log("Đã điền 'Hello word' vào textarea.");
-    } else {
-        console.log("Không tìm thấy textarea với placeholder phù hợp.");
-        // Bạn có thể alert để thông báo cho người dùng
-        alert(`Không tìm thấy ô textarea với placeholder: "${placeholderText}"`);
-    }
+  if (textarea) {
+    textarea.focus(); // Focus vào textarea trước khi gõ
+
+    let i = 0;
+    const typingInterval = 1; // Khoảng thời gian giữa các ký tự (ms)
+
+    const typeChar = () => {
+      if (i < textToType.length) {
+        const char = textToType.charAt(i);
+
+        // 1. Cập nhật giá trị trực tiếp
+        textarea.value += char;
+
+        // 2. Kích hoạt sự kiện 'input'
+        // Đây là sự kiện quan trọng nhất mà các framework lắng nghe
+        textarea.dispatchEvent(new Event('input', {
+          bubbles: true,   // Cho phép sự kiện nổi bọt lên các phần tử cha
+          cancelable: true // Cho phép sự kiện có thể bị hủy
+        }));
+
+        // Tùy chọn: Đặt con trỏ về cuối văn bản và cuộn nếu cần
+        textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
+        textarea.scrollTop = textarea.scrollHeight;
+
+        i++;
+        setTimeout(typeChar, typingInterval); // Gọi lại chính nó sau một khoảng thời gian
+      } else {
+        console.log(`Đã hoàn tất điền "${textToType}" vào textarea.`);
+        // Tùy chọn: Kích hoạt sự kiện 'change' khi hoàn thành
+        textarea.dispatchEvent(new Event('change', {
+          bubbles: true
+        }));
+      }
+    };
+
+    typeChar(); // Bắt đầu quá trình gõ
+  } else {
+    console.log(`Không tìm thấy ô textarea với placeholder: "${placeholderText}"`);
+    alert(`Không tìm thấy ô textarea với placeholder: "${placeholderText}"`);
+  }
 }
