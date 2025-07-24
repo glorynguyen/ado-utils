@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
   const fillButton = document.getElementById('fillButton');
+  const pullRequests = document.getElementById('pullRequests');
+  pullRequests.addEventListener('click', async () => {
+    await chrome.tabs.create({ url: "https://dev.azure.com/PepsiCoIT2/CGF_PepsiCocom_Redesign/_git/app-cgf-pepsico-com-frontend/pullrequests?_a=active" });
+  });
+
 
   // Lấy template từ đâu đó (ví dụ, template cố định hoặc từ chrome.storage)
   const templateToFill = `PR title: [ComponentName] Description
