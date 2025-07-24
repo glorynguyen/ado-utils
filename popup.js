@@ -52,7 +52,7 @@ Attach screenshots, GIFs, or screen recordings demonstrating:
 ---
 ## Deployment notes (if applicable)
 - Are there any migrations or special deployment steps needed?
-## ⚠ Known issues / Remaining work
+## Known issues / Remaining work
 - List any known bugs, limitations, or incomplete items that you are aware of.
 - Include workarounds if any.
 Example:
