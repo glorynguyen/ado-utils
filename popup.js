@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   // Lấy template từ đâu đó (ví dụ, template cố định hoặc từ chrome.storage)
-  const templateToFill = `PR title: [ComponentName] Description
+  const templateToFill = `
 ## Description
 Please provide a concise description of your changes. Include the context and purpose of this
 PR.
@@ -28,37 +28,17 @@ Fixes #[Work Item ID]
 ---
 ## Checklist for Developer Self-Test
 ### Code Quality & Functionality
-- [ ] Code builds successfully without errors or warnings
-- [ ] Linting passes locally
-- [ ] No unused code or console logs
+- [x] Code builds successfully without errors or warnings
+- [x] Linting passes locally
+- [x] No unused code or console logs
 ### UI/UX (if applicable)
-- [ ] Verified layout in different screen sizes (desktop, tablet, mobile)
+- [x] Verified layout in different screen sizes (desktop, tablet, mobile)
 ### Functionality & Business Logic
-- [ ] Main functionality works as expected
-- [ ] Edge cases handled (e.g., null values, error states)
-- [ ] Error and loading states are properly handled
+- [x] Main functionality works as expected
+- [x] Edge cases handled (e.g., null values, error states)
+- [x] Error and loading states are properly handled
 ### Evidence
-Attach screenshots, GIFs, or screen recordings demonstrating:
-- [ ] The main flow working
-- [ ] Edge case handling
-- [ ] Any relevant UI changes
----
-## Screenshots / Demo evidence
-> Please attach images or links to a short video demonstrating the changes in action.
----
-## Additional notes for reviewer
-- Are there specific parts you want reviewers to focus on?
-- Any known issues?
----
-## Deployment notes (if applicable)
-- Are there any migrations or special deployment steps needed?
-## Known issues / Remaining work
-- List any known bugs, limitations, or incomplete items that you are aware of.
-- Include workarounds if any.
-Example:
-- [ ] Need to fix layout glitch on Safari in a separate PR
-- [ ] Placeholder data for some fields (final data integration pending)
-- [ ] Accessibility audit not fully covered yet`; // Hoặc lấy từ chrome.storage.sync.get('prTemplate') nếu bạn muốn dùng template đã lưu
+`; // Hoặc lấy từ chrome.storage.sync.get('prTemplate') nếu bạn muốn dùng template đã lưu
 
   fillButton.addEventListener('click', async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
