@@ -24,9 +24,7 @@ It also includes a quick-access button to a team's specific Pull Requests page o
 
 ### Option 1: From the Chrome Web Store (Recommended)
 
-*(This is a placeholder link. You would replace it with your actual store link once published.)*
-
-[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/your-extension-id)
+TBD
 
 ### Option 2: Manual Installation (for Developers)
 
@@ -34,7 +32,7 @@ If you want to customize the extension or install it from the source code:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/pr-template-paster.git
+    git clone https://github.com/glorynguyen/ado-utils.git
     ```
 2.  Open Google Chrome and navigate to `chrome://extensions`.
 3.  Enable **Developer mode** by toggling the switch in the top-right corner.
