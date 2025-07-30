@@ -65,6 +65,52 @@
             }
             const { dev, qa } = colors;
             const calendar = new FullCalendar.Calendar(calendarEl, {
+                eventClick: function (info) {
+                    const event = info.event;
+                    const detail = event.extendedProps.detail;
+
+                    let message = `<strong>${event.title}</strong><br>`;
+                    message += `Date: ${event.start.toDateString()}<br>`;
+
+                    if (detail && detail.notes) {
+                        message += `<ul>`;
+                        detail.notes.forEach(note => {
+                            message += `<li><strong>${note.title}:</strong> ${note.status}</li>`;
+                        });
+                        message += `</ul>`;
+                    }
+
+                    // Show basic browser alert — replace this with a custom modal if needed
+                    const wrapper = document.createElement("div");
+                    wrapper.innerHTML = message;
+                    wrapper.style.padding = "15px";
+                    wrapper.style.background = "#fff";
+                    wrapper.style.border = "1px solid #ddd";
+                    wrapper.style.borderRadius = "8px";
+                    wrapper.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
+                    wrapper.style.position = "fixed";
+                    wrapper.style.top = "50%";
+                    wrapper.style.left = "50%";
+                    wrapper.style.transform = "translate(-50%, -50%)";
+                    wrapper.style.zIndex = "9999";
+                    // Create overlay
+                    const overlay = document.createElement("div");
+                    overlay.style.position = "fixed";
+                    overlay.style.top = "0";
+                    overlay.style.left = "0";
+                    overlay.style.width = "100vw";
+                    overlay.style.height = "100vh";
+                    overlay.style.backgroundColor = "rgba(0,0,0,0.3)";
+                    overlay.style.zIndex = "9998";
+
+                    // When clicking the overlay, remove both modal and overlay
+                    overlay.onclick = () => {
+                        wrapper.remove();
+                        overlay.remove();
+                    };
+                    document.body.appendChild(overlay);
+                    document.body.appendChild(wrapper);
+                },
                 initialView: 'dayGridMonth',
                 initialDate: '2025-07-30',
                 headerToolbar: {
@@ -73,7 +119,20 @@
                     right: 'dayGridMonth,listWeek'
                 },
                 events: [
-                    { title: 'Data check', start: '2025-07-30', color: '#5bc0de' },
+                    {
+                        title: 'Data check', start: '2025-07-30', color: '#5bc0de', detail: {
+                            notes: [{
+                                title: "Lead Story",
+                                status: "In progress"
+                            }, {
+                                title: "Related Topics",
+                                status: "New"
+                            }, {
+                                title: "Article Hero",
+                                status: "Blocker"
+                            }]
+                        }
+                    },
                     { title: 'Lead Story dev', start: '2025-07-31', color: dev },
                     { title: 'Lead Story PR', start: '2025-08-01', color: dev },
                     { title: 'QA Lead Story', start: '2025-08-04', color: qa },
