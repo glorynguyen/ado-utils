@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Sprint 4 Calendar</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sprint 4 Calendar (30 Jul – 12 Aug 2025)</h1>
+    <div id="calendar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
+            const colors = {
+                dev: "#5cb85c",
+                qa: '#d9534f'
+            }
+            const { dev, qa } = colors;
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                initialDate: '2025-07-30',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listWeek'
+                },
+                events: [
+                    { title: 'Data check', start: '2025-07-30', color: '#5bc0de' },
+                    { title: 'Lead Story dev', start: '2025-07-31', color: dev },
+                    { title: 'Lead Story PR', start: '2025-08-01', color: dev },
+                    { title: 'QA Lead Story', start: '2025-08-04', color: qa },
+                    { title: 'Related Topics dev', start: '2025-08-05', color: dev },
+                    { title: 'Related Topics PR', start: '2025-08-06', color: dev },
+                    { title: 'QA Related Topics', start: '2025-08-07', color: qa },
+                    { title: 'Article Hero dev', start: '2025-08-08', color: dev },
+                    { title: 'Article Hero PR', start: '2025-08-11', color: dev },
+                    { title: 'QA Article Hero', start: '2025-08-12', color: qa }
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+
+</html>
