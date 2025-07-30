@@ -69,9 +69,10 @@
             const calendarEl = document.getElementById('calendar');
             const colors = {
                 dev: "#5cb85c",
-                qa: '#d9534f'
+                qa: 'lightgreen',
+                blocker: '#ff00008f',
             }
-            const { dev, qa } = colors;
+            const { dev, qa, blocker } = colors;
             const originalEvents = [
                 {
                     assignee: "Vincent",
@@ -90,11 +91,27 @@
                         }]
                     }
                 },
-                { assignee: "Vincent", title: 'Lead Story', start: '2025-07-31', end: '2025-08-02', color: dev },
+                {
+                    assignee: "Vincent", title: 'Lead Story', start: '2025-07-31', end: '2025-08-02', color: blocker, detail: {
+                        notes: [{
+                            title: "Slack",
+                            status: "Thread",
+                            link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753851879630259"
+                        }]
+                    }
+                },
                 { assignee: "QA", title: 'QA Lead Story', start: '2025-08-04', color: qa },
                 { assignee: "Vincent", title: 'Related Topics', start: '2025-08-04', end: '2025-08-06', color: dev },
                 { assignee: "QA", title: 'QA Related Topics', start: '2025-08-07', color: qa },
-                { assignee: "Vincent", title: 'Article Hero', start: '2025-08-06', end: '2025-08-09', color: dev },
+                {
+                    assignee: "Vincent", title: 'Article Hero', start: '2025-08-06', end: '2025-08-09', color: blocker, detail: {
+                        notes: [{
+                            title: "Slack",
+                            status: "Thread",
+                            link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753804682604499"
+                        }]
+                    }
+                },
                 { assignee: "QA", title: 'QA Article Hero', start: '2025-08-12', color: qa },
                 // Harvey Bui
                 {
