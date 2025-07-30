@@ -55,8 +55,11 @@
 <body>
     <h1>Sprint 4 Calendar (30 Jul – 12 Aug 2025)</h1>
     <div id="filters" style="text-align:center; margin-bottom: 20px;">
-        <label><input type="checkbox" class="assignee-filter" value="Vincent" checked> Vincent</label>
+        <label style="font-weight: bold;"><input type="checkbox" id="all-filter" checked> All</label>
         <label><input type="checkbox" class="assignee-filter" value="Harvey" checked> Harvey</label>
+        <label><input type="checkbox" class="assignee-filter" value="Henry" checked> Henry</label>
+        <label><input type="checkbox" class="assignee-filter" value="Karim" checked> Karim</label>
+        <label><input type="checkbox" class="assignee-filter" value="Vincent" checked> Vincent</label>
         <label><input type="checkbox" class="assignee-filter" value="QA" checked> QA</label>
     </div>
     <div id="calendar"></div>
@@ -75,7 +78,8 @@
                     title: 'Data check', start: '2025-07-30', color: '#5bc0de', detail: {
                         notes: [{
                             title: "Lead Story",
-                            status: "In progress"
+                            status: "Blocker",
+                            link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753851879630259"
                         }, {
                             title: "Related Topics",
                             status: "New"
@@ -97,21 +101,58 @@
                     assignee: "Harvey",
                     title: "Dynamic Product Grid (All Brands, Filter, Search)",
                     start: '2025-07-30',
-                    end: '2025-08-02',
+                    end: '2025-08-05',
                     color: dev
                 },
                 {
                     assignee: "Harvey",
                     title: "Bento Stats (Reuse existing Bento Grid)",
                     start: '2025-08-04',
-                    end: '2025-08-05',
+                    end: '2025-08-06',
                     color: dev
                 },
                 {
                     assignee: "Harvey",
                     title: "[FE] Dynamic Product Grid (Featured tab)",
-                    start: '2025-08-02',
-                    end: '2025-08-04',
+                    start: '2025-08-01',
+                    end: '2025-08-05',
+                    color: dev
+                },
+                // Karim
+                {
+                    assignee: "Karim",
+                    title: "Featured News",
+                    start: '2025-07-30',
+                    end: '2025-08-01',
+                    color: dev
+                },
+                {
+                    assignee: "Karim",
+                    title: "Dynamic News Grid",
+                    start: '2025-08-01',
+                    end: '2025-08-08',
+                    color: dev
+                },
+                // Henry
+                {
+                    assignee: "Henry",
+                    title: "Social Profile Links",
+                    start: '2025-08-04',
+                    end: '2025-08-08',
+                    color: dev
+                },
+                {
+                    assignee: "Henry",
+                    title: "ESG Topic Hero",
+                    start: '2025-07-31',
+                    end: '2025-08-05',
+                    color: dev
+                },
+                {
+                    assignee: "Henry",
+                    title: "Accordion",
+                    start: '2025-07-30',
+                    end: '2025-07-31',
                     color: dev
                 }
             ];
@@ -179,9 +220,43 @@
                 calendar.addEventSource(filtered);
             }
 
-            // Attach change listener to checkboxes
-            document.querySelectorAll('.assignee-filter').forEach(cb => {
-                cb.addEventListener('change', applyAssigneeFilter);
+            const allFilterCheckbox = document.getElementById('all-filter');
+            const assigneeCheckboxes = document.querySelectorAll('.assignee-filter');
+
+            function applyAssigneeFilter() {
+                const checkedValues = Array.from(document.querySelectorAll('.assignee-filter:checked'))
+                    .map(cb => cb.value);
+
+                const filtered = originalEvents.filter(event =>
+                    checkedValues.includes(event.assignee)
+                );
+
+                calendar.removeAllEvents();
+                calendar.addEventSource(filtered);
+            }
+
+            // Listener for the "All" checkbox
+            allFilterCheckbox.addEventListener('change', () => {
+                assigneeCheckboxes.forEach(cb => {
+                    cb.checked = allFilterCheckbox.checked;
+                });
+                applyAssigneeFilter();
+            });
+
+            // Attach change listener to individual checkboxes
+            assigneeCheckboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    // If an individual box is unchecked, uncheck the "All" box
+                    if (!cb.checked) {
+                        allFilterCheckbox.checked = false;
+                    }
+                    // If it was checked, check if all others are also checked
+                    else {
+                        const allAreChecked = Array.from(assigneeCheckboxes).every(c => c.checked);
+                        allFilterCheckbox.checked = allAreChecked;
+                    }
+                    applyAssigneeFilter();
+                });
             });
             calendar.render();
         });
