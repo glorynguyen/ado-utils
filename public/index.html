@@ -71,8 +71,9 @@
                 dev: "#5cb85c",
                 qa: 'lightgreen',
                 blocker: '#ff00008f',
+                warning: '#baba18',
             }
-            const { dev, qa, blocker } = colors;
+            const { dev, qa, blocker, warning } = colors;
             const originalEvents = [
                 // {
                 //     assignee: "Vincent",
@@ -101,7 +102,16 @@
                     }
                 },
                 // { assignee: "QA", title: 'QA Lead Story', start: '2025-08-04', color: qa },
-                { assignee: "Vincent", title: 'Related Topics', start: '2025-08-04', end: '2025-08-06', color: dev },
+                {
+                    assignee: "Vincent", title: 'Related Topics', start: '2025-08-04', end: '2025-08-06', color: warning,
+                    detail: {
+                        notes: [{
+                            title: "Pending",
+                            status: "Requesting Design System",
+                            link: "https://www.figma.com/design/COi0qpeQqP4ELPZMTEdoLd?node-id=8958-4608&m=dev#1359331885"
+                        }]
+                    }
+                },
                 // { assignee: "QA", title: 'QA Related Topics', start: '2025-08-07', color: qa },
                 {
                     assignee: "Vincent", title: 'Article Hero', start: '2025-08-06', end: '2025-08-09', color: blocker, detail: {
@@ -133,7 +143,14 @@
                     title: "[FE] Dynamic Product Grid (Featured tab)",
                     start: '2025-08-01',
                     end: '2025-08-05',
-                    color: dev
+                    color: warning,
+                    detail: {
+                        notes: [{
+                            title: "Missing field",
+                            status: "Thread",
+                            link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753867157569179"
+                        }]
+                    }
                 },
                 // Karim
                 {
@@ -170,7 +187,15 @@
                     title: "ESG Topic Hero",
                     start: '2025-07-31',
                     end: '2025-08-05',
-                    color: dev
+                    color: blocker,
+                    detail: {
+                        notes: [{
+                            title: "Slack",
+                            status: "Thread",
+                            link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753869166645969"
+                        }]
+                    }
+                    
                 },
                 {
                     assignee: "Henry",
