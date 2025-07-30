@@ -54,6 +54,11 @@
 
 <body>
     <h1>Sprint 4 Calendar (30 Jul – 12 Aug 2025)</h1>
+    <div id="filters" style="text-align:center; margin-bottom: 20px;">
+        <label><input type="checkbox" class="assignee-filter" value="Vincent" checked> Vincent</label>
+        <label><input type="checkbox" class="assignee-filter" value="Harvey" checked> Harvey</label>
+        <label><input type="checkbox" class="assignee-filter" value="QA" checked> QA</label>
+    </div>
     <div id="calendar"></div>
 
     <script>
@@ -64,6 +69,52 @@
                 qa: '#d9534f'
             }
             const { dev, qa } = colors;
+            const originalEvents = [
+                {
+                    assignee: "Vincent",
+                    title: 'Data check', start: '2025-07-30', color: '#5bc0de', detail: {
+                        notes: [{
+                            title: "Lead Story",
+                            status: "In progress"
+                        }, {
+                            title: "Related Topics",
+                            status: "New"
+                        }, {
+                            title: "Article Hero",
+                            status: "Blocker",
+                            link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753804682604499"
+                        }]
+                    }
+                },
+                { assignee: "Vincent", title: 'Lead Story', start: '2025-07-31', end: '2025-08-02', color: dev },
+                { assignee: "QA", title: 'QA Lead Story', start: '2025-08-04', color: qa },
+                { assignee: "Vincent", title: 'Related Topics', start: '2025-08-04', end: '2025-08-06', color: dev },
+                { assignee: "QA", title: 'QA Related Topics', start: '2025-08-07', color: qa },
+                { assignee: "Vincent", title: 'Article Hero', start: '2025-08-06', end: '2025-08-09', color: dev },
+                { assignee: "QA", title: 'QA Article Hero', start: '2025-08-12', color: qa },
+                // Harvey Bui
+                {
+                    assignee: "Harvey",
+                    title: "Dynamic Product Grid (All Brands, Filter, Search)",
+                    start: '2025-07-30',
+                    end: '2025-08-02',
+                    color: dev
+                },
+                {
+                    assignee: "Harvey",
+                    title: "Bento Stats (Reuse existing Bento Grid)",
+                    start: '2025-08-04',
+                    end: '2025-08-05',
+                    color: dev
+                },
+                {
+                    assignee: "Harvey",
+                    title: "[FE] Dynamic Product Grid (Featured tab)",
+                    start: '2025-08-02',
+                    end: '2025-08-04',
+                    color: dev
+                }
+            ];
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 eventClick: function (info) {
                     const event = info.event;
@@ -73,11 +124,9 @@
                     message += `Date: ${event.start.toDateString()}<br>`;
 
                     if (detail && detail.notes) {
-                        message += `<ul>`;
-                        detail.notes.forEach(note => {
-                            message += `<li><strong>${note.title}:</strong> ${note.status}</li>`;
-                        });
-                        message += `</ul>`;
+                        message += '<ul>' + detail.notes.map(note =>
+                            `<li>${note.link ? `<a target="_blank" href="${note.link}">` : ''}<strong>${note.title}:</strong> ${note.status}${note.link ? '</a>' : ''}</li>`
+                        ).join('') + '</ul>';
                     }
 
                     // Show basic browser alert — replace this with a custom modal if needed
@@ -118,31 +167,23 @@
                     center: 'title',
                     right: 'dayGridMonth,listWeek'
                 },
-                events: [
-                    {
-                        title: 'Data check', start: '2025-07-30', color: '#5bc0de', detail: {
-                            notes: [{
-                                title: "Lead Story",
-                                status: "In progress"
-                            }, {
-                                title: "Related Topics",
-                                status: "New"
-                            }, {
-                                title: "Article Hero",
-                                status: "Blocker"
-                            }]
-                        }
-                    },
-                    { title: 'Lead Story dev', start: '2025-07-31', color: dev },
-                    { title: 'Lead Story PR', start: '2025-08-01', color: dev },
-                    { title: 'QA Lead Story', start: '2025-08-04', color: qa },
-                    { title: 'Related Topics dev', start: '2025-08-05', color: dev },
-                    { title: 'Related Topics PR', start: '2025-08-06', color: dev },
-                    { title: 'QA Related Topics', start: '2025-08-07', color: qa },
-                    { title: 'Article Hero dev', start: '2025-08-08', color: dev },
-                    { title: 'Article Hero PR', start: '2025-08-11', color: dev },
-                    { title: 'QA Article Hero', start: '2025-08-12', color: qa }
-                ]
+                events: originalEvents
+            });
+            function applyAssigneeFilter() {
+                const checkedValues = Array.from(document.querySelectorAll('.assignee-filter:checked'))
+                    .map(cb => cb.value);
+
+                const filtered = originalEvents.filter(event =>
+                    checkedValues.includes(event.assignee)
+                );
+
+                calendar.removeAllEvents();
+                calendar.addEventSource(filtered);
+            }
+
+            // Attach change listener to checkboxes
+            document.querySelectorAll('.assignee-filter').forEach(cb => {
+                cb.addEventListener('change', applyAssigneeFilter);
             });
             calendar.render();
         });
