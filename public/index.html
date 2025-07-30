@@ -6,6 +6,29 @@
     <title>Sprint 4 Calendar</title>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyC6jYux-bT9Gs4JK_gCNcK3cVSkSzT0UGs",
+            authDomain: "pepsico-467c1.firebaseapp.com",
+            projectId: "pepsico-467c1",
+            storageBucket: "pepsico-467c1.firebasestorage.app",
+            messagingSenderId: "724549740063",
+            appId: "1:724549740063:web:1e411b322fe460dbf4172a",
+            measurementId: "G-6ZHFEWGYT1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
