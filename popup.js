@@ -8,12 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Lấy template từ đâu đó (ví dụ, template cố định hoặc từ chrome.storage)
   const templateToFill = `
-## Description
-Please provide a concise description of your changes. Include the context and purpose of this
-PR.
-- Why is this change needed?
-- What problem does it solve?
-- Any additional context?
+
 ---
 ## Type of change
 - [ ] Bug fix
@@ -23,8 +18,7 @@ PR.
 - [ ] Other (please describe):
 ---
 ## Related work items
-Link to the related ADO work item(s):
-Fixes #[Work Item ID]
+#{ticketId}
 ---
 ## Checklist for Developer Self-Test
 ### Code Quality & Functionality
@@ -38,65 +32,58 @@ Fixes #[Work Item ID]
 - [x] Edge cases handled (e.g., null values, error states)
 - [x] Error and loading states are properly handled
 ### Evidence
-`; // Hoặc lấy từ chrome.storage.sync.get('prTemplate') nếu bạn muốn dùng template đã lưu
+`;
 
   fillButton.addEventListener('click', async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    // Truyền templateToFill như một đối số cho hàm fillDescription
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       function: fillDescription,
-      args: [templateToFill] // Truyền dữ liệu vào hàm sẽ được inject
+      args: [templateToFill]
     });
   });
 });
-
-// Hàm này sẽ được inject và chạy trong ngữ cảnh của tab đang hoạt động.
-// Nó nhận 'textToType' làm đối số.
-// KHÔNG ĐẶT HÀM NÀY BÊN TRONG document.addEventListener NỮA!
-// Nó cần độc lập để chrome.scripting.executeScript có thể truy cập.
 function fillDescription(textToType) {
-  // Tìm ô textarea dựa trên placeholder của nó
   const placeholderText = "Describe the code that is being reviewed";
   const textarea = document.querySelector(`textarea[placeholder="${placeholderText}"]`);
+  const number = document.querySelector('.repos-pr-create-header-first-row')?.nextSibling?.children[0]
+  ?.querySelector('.text-ellipsis')?.querySelector('.text-ellipsis')?.innerHTML.match(/\d+/g);
+
+  const ticketId = number ? number[0] : null;
+  textToType = textToType.replace("{ticketId}", ticketId);
 
   if (textarea) {
-    textarea.focus(); // Focus vào textarea trước khi gõ
+    textarea.focus();
 
     let i = 0;
-    const typingInterval = 1; // Khoảng thời gian giữa các ký tự (ms)
+    const typingInterval = 1;
 
     const typeChar = () => {
       if (i < textToType.length) {
         const char = textToType.charAt(i);
 
-        // 1. Cập nhật giá trị trực tiếp
         textarea.value += char;
 
-        // 2. Kích hoạt sự kiện 'input'
-        // Đây là sự kiện quan trọng nhất mà các framework lắng nghe
         textarea.dispatchEvent(new Event('input', {
-          bubbles: true,   // Cho phép sự kiện nổi bọt lên các phần tử cha
-          cancelable: true // Cho phép sự kiện có thể bị hủy
+          bubbles: true,
+          cancelable: true
         }));
 
-        // Tùy chọn: Đặt con trỏ về cuối văn bản và cuộn nếu cần
         textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
         textarea.scrollTop = textarea.scrollHeight;
 
         i++;
-        setTimeout(typeChar, typingInterval); // Gọi lại chính nó sau một khoảng thời gian
+        setTimeout(typeChar, typingInterval);
       } else {
         console.log(`Đã hoàn tất điền "${textToType}" vào textarea.`);
-        // Tùy chọn: Kích hoạt sự kiện 'change' khi hoàn thành
         textarea.dispatchEvent(new Event('change', {
           bubbles: true
         }));
       }
     };
 
-    typeChar(); // Bắt đầu quá trình gõ
+    typeChar();
   } else {
     console.log(`Không tìm thấy ô textarea với placeholder: "${placeholderText}"`);
     alert(`Không tìm thấy ô textarea với placeholder: "${placeholderText}"`);
