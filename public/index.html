@@ -72,8 +72,9 @@
                 qa: 'lightgreen',
                 blocker: '#ff00008f',
                 warning: '#baba18',
+                done: '#2577c8',
             }
-            const { dev, qa, blocker, warning } = colors;
+            const { dev, qa, blocker, warning, done } = colors;
             const originalEvents = [
                 // {
                 //     assignee: "Vincent",
@@ -93,11 +94,18 @@
                 //     }
                 // },
                 {
-                    assignee: "Vincent", title: 'Lead Story', start: '2025-08-04', end: '2025-08-06', color: blocker, detail: {
+                    assignee: "Vincent", title: 'Lead Story', start: '2025-08-04', end: '2025-08-06', color: warning, detail: {
                         notes: [{
                             title: "Slack",
                             status: "Thread",
                             link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753851879630259"
+                        }, {
+                            title: "Work",
+                            status: "Mapping data"
+                        }, {
+                            title: "Ticket",
+                            status: "Lead Story",
+                            link: "https://dev.azure.com/PepsiCoIT2/CGF_PepsiCocom_Redesign/_boards/board/t/CGF_PepsiCocom_Redesign%20Team/Stories?System.WorkItemType=User%20Story&System.IterationPath=CGF_PepsiCocom_Redesign%5CDevelopment%20Sprints%5CSprint%204&System.AssignedTo=%40me&workitem=12949"
                         }]
                     }
                 },
@@ -117,11 +125,17 @@
                 },
                 // { assignee: "QA", title: 'QA Related Topics', start: '2025-08-07', color: qa },
                 {
-                    assignee: "Vincent", title: 'Article Hero', start: '2025-08-06', end: '2025-08-09', color: blocker, detail: {
+                    assignee: "Vincent", title: 'Article Hero', start: '2025-08-06', end: '2025-08-09', color: warning, detail: {
                         notes: [{
                             title: "Slack",
                             status: "Thread",
                             link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753804682604499"
+                        }, {
+                            title: "Point 1",
+                            status: "Do we require the clickable link for the Bread Crumb ?"
+                        }, {
+                            title: "Point 2",
+                            status: "Do we require a toggle to turn on / off for the Social share link ?"
                         }]
                     }
                 },
@@ -159,8 +173,8 @@
                 {
                     assignee: "Karim",
                     title: "Featured News",
-                    start: '2025-07-30',
-                    end: '2025-08-01',
+                    start: '2025-07-31',
+                    end: '2025-08-02',
                     color: dev
                 },
                 {
@@ -168,7 +182,7 @@
                     title: "Dynamic News Grid",
                     start: '2025-08-01',
                     end: '2025-08-08',
-                    color: blocker,
+                    color: dev,
                     detail: {
                         notes: [{
                             title: "Slack",
@@ -190,12 +204,15 @@
                     title: "ESG Topic Hero",
                     start: '2025-08-04',
                     end: '2025-08-07',
-                    color: blocker,
+                    color: warning,
                     detail: {
                         notes: [{
                             title: "Slack",
                             status: "Thread",
                             link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753869166645969"
+                        },{
+                            title: "Action",
+                            status: "Work with Karim to clarify"
                         }]
                     }
                     
@@ -205,7 +222,7 @@
                     title: "Accordion",
                     start: '2025-07-30',
                     end: '2025-07-31',
-                    color: dev
+                    color: done
                 }
             ];
             const calendar = new FullCalendar.Calendar(calendarEl, {
