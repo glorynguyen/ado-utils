@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Video từ Âm Thanh và Hình Ảnh</title>
+    <!-- Tải thư viện FFmpeg.wasm từ CDN -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 25px;
+        }
+        .upload-area {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .preview-area {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #ccc;
+            border-radius: 6px;
+            min-height: 100px;
+        }
+        #audioPlayer {
+            width: 100%;
+            margin-top: 10px;
+        }
+        #imagePreview {
+            max-width: 100%;
+            max-height: 250px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+        button, .button-like {
+            font-size: 16px;
+            padding: 12px 24px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        label.button-like {
+            background-color: #007bff;
+            color: white;
+        }
+        label.button-like:hover {
+            background-color: #0069d9;
+        }
+        #createVideoButton {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            width: 80%;
+            margin-top: 20px;
+        }
+        #createVideoButton:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        button:disabled {
+            background-color: #9E9E9E;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+            min-height: 22px;
+        }
+        /* Ẩn các phần tử cho đến khi có file được tải lên */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Tạo Video từ Âm Thanh và Hình Ảnh</h1>
+
+    <div class="upload-area">
+        <label for="audioInput" class="button-like">1. Tải lên Âm Thanh</label>
+        <input type="file" id="audioInput" accept="audio/*" class="hidden">
+
+        <label for="imageInput" class="button-like">2. Tải lên Hình Ảnh</label>
+        <input type="file" id="imageInput" accept="image/*" class="hidden">
+    </div>
+
+    <div class="preview-area">
+        <h4>Xem trước</h4>
+        <audio id="audioPlayer" controls class="hidden"></audio>
+        <img id="imagePreview" src="#" alt="Xem trước hình ảnh" class="hidden" />
+    </div>
+
+    <button id="createVideoButton" disabled>3. Tạo Video MP4</button>
+
+    <div id="status">Vui lòng tải lên cả tệp âm thanh và hình ảnh.</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // ---- DOM Elements ----
+    const audioInput = document.getElementById('audioInput');
+    const imageInput = document.getElementById('imageInput');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const imagePreview = document.getElementById('imagePreview');
+    const createVideoButton = document.getElementById('createVideoButton');
+    const statusDiv = document.getElementById('status');
+
+    // ---- State Variables ----
+    let audioFile = null;
+    let imageFile = null;
+    let ffmpeg;
+
+    // ---- Initialization ----
+    loadFFmpeg();
+
+    // ---- Event Listeners ----
+    audioInput.addEventListener('change', handleAudioUpload);
+    imageInput.addEventListener('change', handleImageUpload);
+    createVideoButton.addEventListener('click', generateVideo);
+
+    // ---- Core Functions ----
+    async function loadFFmpeg() {
+        statusDiv.textContent = 'Đang tải thư viện video...';
+        ffmpeg = FFmpeg.createFFmpeg({
+             log: true, // Bật log để debug nếu cần
+             corePath: "https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js",
+        });
+        await ffmpeg.load();
+        statusDiv.textContent = 'Thư viện đã sẵn sàng. Vui lòng tải lên các tệp.';
+    }
+
+    function handleAudioUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        audioFile = file;
+        audioPlayer.src = URL.createObjectURL(file);
+        audioPlayer.classList.remove('hidden');
+        checkReadyState();
+    }
+
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        imageFile = file;
+        imagePreview.src = URL.createObjectURL(file);
+        imagePreview.classList.remove('hidden');
+        checkReadyState();
+    }
+
+    function checkReadyState() {
+        if (audioFile && imageFile) {
+            createVideoButton.disabled = false;
+            statusDiv.textContent = 'Đã sẵn sàng! Nhấn nút để tạo video.';
+        }
+    }
+
+    async function generateVideo() {
+        if (!audioFile || !imageFile) {
+            alert('Vui lòng tải lên cả tệp âm thanh và hình ảnh.');
+            return;
+        }
+
+        if (!ffmpeg.isLoaded()) {
+            statusDiv.textContent = 'Thư viện video chưa sẵn sàng, vui lòng chờ...';
+            await loadFFmpeg();
+        }
+
+        // Vô hiệu hóa nút và cập nhật trạng thái
+        createVideoButton.disabled = true;
+        statusDiv.textContent = 'Bắt đầu quá trình tạo video... (việc này có thể mất một lúc)';
+
+        const { fetchFile } = FFmpeg;
+        const audioName = audioFile.name;
+        const imageName = imageFile.name;
+        const outputName = 'video.mp4';
+
+        try {
+            // Ghi các tệp vào bộ nhớ ảo của FFmpeg
+            ffmpeg.FS('writeFile', imageName, await fetchFile(imageFile));
+            ffmpeg.FS('writeFile', audioName, await fetchFile(audioFile));
+            
+            statusDiv.textContent = 'Đang ghép hình ảnh và âm thanh...';
+
+            // Chạy lệnh FFmpeg để tạo video
+            // -loop 1: Lặp lại hình ảnh vô hạn
+            // -i [image]: Tệp hình ảnh đầu vào
+            // -i [audio]: Tệp âm thanh đầu vào
+            // -c:v libx264: Sử dụng codec video H.264
+            // -tune stillimage: Tối ưu hóa cho mã hóa hình ảnh tĩnh
+            // -c:a aac: Sử dụng codec âm thanh AAC (rất tương thích)
+            // -b:a 192k: Đặt bitrate âm thanh là 192kbps
+            // -pix_fmt yuv420p: Định dạng pixel phổ biến để tương thích tối đa
+            // -shortest: Kết thúc video khi luồng ngắn nhất (âm thanh) kết thúc
+            await ffmpeg.run('-loop', '1', '-i', imageName, '-i', audioName, '-c:v', 'libx264', '-tune', 'stillimage', '-c:a', 'aac', '-b:a', '192k', '-pix_fmt', 'yuv420p', '-shortest', outputName);
+            
+            statusDiv.textContent = 'Đã tạo xong! Đang chuẩn bị tải xuống...';
+
+            // Đọc tệp kết quả từ bộ nhớ ảo
+            const data = ffmpeg.FS('readFile', outputName);
+
+            // Tạo Blob và kích hoạt tải xuống
+            const videoBlob = new Blob([data.buffer], { type: 'video/mp4' });
+            downloadBlob(videoBlob, 'video_final.mp4');
+
+            statusDiv.textContent = 'Tải xuống hoàn tất! Bạn có thể tạo video khác.';
+
+            // Xóa các tệp khỏi bộ nhớ ảo để giải phóng không gian
+            ffmpeg.FS('unlink', imageName);
+            ffmpeg.FS('unlink', audioName);
+            ffmpeg.FS('unlink', outputName);
+
+        } catch (error) {
+            statusDiv.textContent = 'Đã xảy ra lỗi khi tạo video. Vui lòng xem Console để biết chi tiết.';
+            console.error(error);
+        } finally {
+            // Kích hoạt lại nút để người dùng có thể thử lại
+            createVideoButton.disabled = false;
+        }
+    }
+
+    // ---- Utility Functions ----
+    function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    }
+});
+</script>
+
+</body>
+</html>
