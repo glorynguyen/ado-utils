@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình Chỉnh Sửa Âm Thanh Studio</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .control-group {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        legend {
+            font-weight: bold;
+            color: #333;
+            padding: 0 10px;
+        }
+        .slider-container, .toggle-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .slider-container label, .toggle-container label {
+            min-width: 120px;
+        }
+        input[type="range"] {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        .players, .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+        button, .button-like {
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            display: inline-block;
+        }
+        label.button-like {
+            background-color: #007bff;
+            color: white;
+        }
+        #processButton {
+            background-color: #28a745;
+            color: white;
+        }
+        #downloadButton {
+            background-color: #17a2b8;
+            color: white;
+        }
+        button:disabled {
+            background-color: #9E9E9E;
+            cursor: not-allowed;
+        }
+        #status {
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+            color: #666;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Trình Chỉnh Sửa Âm Thanh Studio</h1>
+
+    <div class="actions">
+        <label for="fileInput" class="button-like">1. Tải lên tệp Âm Thanh</label>
+        <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+    </div>
+
+    <div class="players">
+        <h4>Âm thanh gốc:</h4>
+        <audio id="originalPlayer" controls></audio>
+        <h4>Âm thanh đã xử lý:</h4>
+        <audio id="processedPlayer" controls></audio>
+    </div>
+
+    <div id="controls">
+        <!-- TÍNH NĂNG MỚI: KHỬ NHIỄU -->
+        <fieldset class="control-group">
+            <legend>Khử Nhiễu (Noise Gate)</legend>
+            <div class="toggle-container">
+                <label for="enableNoiseGate">Bật/Tắt Khử Nhiễu</label>
+                <input type="checkbox" id="enableNoiseGate" checked>
+            </div>
+            <div class="slider-container">
+                <label for="noiseGateThreshold">Ngưỡng (Threshold)</label>
+                <input type="range" id="noiseGateThreshold" min="-100" max="0" value="-50" step="1">
+                <span id="noiseGateThresholdValue">-50 dB</span>
+            </div>
+        </fieldset>
+
+        <fieldset class="control-group">
+            <legend>Compressor (Nén tiếng)</legend>
+            <div class="slider-container">
+                <label for="compThreshold">Ngưỡng (Threshold)</label>
+                <input type="range" id="compThreshold" min="-100" max="0" value="-24" step="1">
+                <span id="compThresholdValue">-24 dB</span>
+            </div>
+            <div class="slider-container">
+                <label for="compRatio">Tỷ lệ (Ratio)</label>
+                <input type="range" id="compRatio" min="1" max="20" value="12" step="1">
+                <span id="compRatioValue">12:1</span>
+            </div>
+        </fieldset>
+        <fieldset class="control-group">
+            <legend>Equalizer (EQ) 3 dải</legend>
+            <div class="slider-container">
+                <label for="eqLow">Trầm (Low)</label>
+                <input type="range" id="eqLow" min="-20" max="20" value="0" step="1">
+                <span id="eqLowValue">0 dB</span>
+            </div>
+            <div class="slider-container">
+                <label for="eqMid">Trung (Mid)</label>
+                <input type="range" id="eqMid" min="-20" max="20" value="0" step="1">
+                <span id="eqMidValue">0 dB</span>
+            </div>
+            <div class="slider-container">
+                <label for="eqHigh">Cao (High)</label>
+                <input type="range" id="eqHigh" min="-20" max="20" value="0" step="1">
+                <span id="eqHighValue">0 dB</span>
+            </div>
+        </fieldset>
+        <fieldset class="control-group">
+            <legend>Reverb (Tiếng Vang)</legend>
+            <div class="slider-container">
+                <label for="reverbMix">Độ hòa trộn (Mix)</label>
+                <input type="range" id="reverbMix" min="0" max="1" value="0.3" step="0.01">
+                <span id="reverbMixValue">0.3</span>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="actions">
+        <button id="processButton" disabled>2. Áp dụng & Nghe thử</button>
+        <button id="downloadButton" disabled>3. Tải Xuống</button>
+    </div>
+    <div id="status">Vui lòng tải lên một tệp âm thanh để bắt đầu.</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // UI Elements
+    const fileInput = document.getElementById('fileInput');
+    const originalPlayer = document.getElementById('originalPlayer');
+    const processedPlayer = document.getElementById('processedPlayer');
+    const processButton = document.getElementById('processButton');
+    const downloadButton = document.getElementById('downloadButton');
+    const statusDiv = document.getElementById('status');
+    const controlElements = {
+        // Thêm các control mới
+        enableNoiseGate: document.getElementById('enableNoiseGate'),
+        noiseGateThreshold: document.getElementById('noiseGateThreshold'),
+        compThreshold: document.getElementById('compThreshold'),
+        compRatio: document.getElementById('compRatio'),
+        eqLow: document.getElementById('eqLow'),
+        eqMid: document.getElementById('eqMid'),
+        eqHigh: document.getElementById('eqHigh'),
+        reverbMix: document.getElementById('reverbMix'),
+    };
+    const valueSpans = {
+        // Thêm span giá trị mới
+        noiseGateThresholdValue: document.getElementById('noiseGateThresholdValue'),
+        compThresholdValue: document.getElementById('compThresholdValue'),
+        compRatioValue: document.getElementById('compRatioValue'),
+        eqLowValue: document.getElementById('eqLowValue'),
+        eqMidValue: document.getElementById('eqMidValue'),
+        eqHighValue: document.getElementById('eqHighValue'),
+        reverbMixValue: document.getElementById('reverbMixValue'),
+    };
+
+    let audioContext;
+    let originalBuffer;
+    let currentProcessedUrl = null;
+
+    function initAudioContext() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    processButton.addEventListener('click', processAudio);
+    downloadButton.addEventListener('click', handleDownload);
+    document.querySelector('label[for="fileInput"]').addEventListener('click', () => fileInput.click());
+    fileInput.onchange = handleFileSelect;
+
+    for (const key in controlElements) {
+        if (controlElements[key].type === 'range') { // Chỉ thêm listener cho thanh trượt
+            controlElements[key].addEventListener('input', (e) => {
+                let value = e.target.value;
+                let unit = '';
+                if (key.includes('Threshold') || key.includes('eq')) unit = ' dB';
+                if (key.includes('compRatio')) value += ':1';
+                if (key === 'reverbMix') value = parseFloat(value).toFixed(2);
+                valueSpans[key + 'Value'].textContent = `${value}${unit}`;
+            });
+        }
+    }
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        initAudioContext();
+        statusDiv.textContent = 'Đang đọc tệp...';
+
+        if (currentProcessedUrl) {
+            URL.revokeObjectURL(currentProcessedUrl);
+            currentProcessedUrl = null;
+        }
+        originalPlayer.src = URL.createObjectURL(file);
+        processedPlayer.src = '';
+        downloadButton.disabled = true;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            statusDiv.textContent = 'Đang giải mã âm thanh...';
+            audioContext.decodeAudioData(e.target.result, (buffer) => {
+                originalBuffer = buffer;
+                processButton.disabled = false;
+                statusDiv.textContent = 'Sẵn sàng để xử lý. Hãy nhấn "Áp dụng & Nghe thử".';
+            }, (error) => {
+                statusDiv.textContent = 'Lỗi: Không thể giải mã tệp âm thanh.';
+                console.error(error);
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    async function processAudio() {
+        if (!originalBuffer) {
+            alert('Vui lòng tải tệp âm thanh trước.');
+            return;
+        }
+
+        processButton.disabled = true;
+        downloadButton.disabled = true;
+        statusDiv.textContent = 'Đang xử lý... Việc này có thể mất một lúc.';
+
+        const offlineCtx = new OfflineAudioContext(originalBuffer.numberOfChannels, originalBuffer.length, originalBuffer.sampleRate);
+        const source = offlineCtx.createBufferSource();
+        source.buffer = originalBuffer;
+
+        // --- BẮT ĐẦU CHUỖI XỬ LÝ ÂM THANH ---
+
+        let currentNode = source;
+
+        // 1. Noise Gate (nếu được bật)
+        if (controlElements.enableNoiseGate.checked) {
+            const noiseGate = offlineCtx.createDynamicsCompressor();
+            // Cấu hình DynamicsCompressor để hoạt động như một Noise Gate
+            noiseGate.threshold.value = parseFloat(controlElements.noiseGateThreshold.value); // Ngưỡng để phân biệt nhiễu
+            noiseGate.knee.value = 0;           // "Góc" gấp khúc, 0 để gate hoạt động mạnh
+            noiseGate.ratio.value = 20;         // Tỷ lệ nén rất cao
+            noiseGate.attack.value = 0.005;     // Mở cổng nhanh
+            noiseGate.release.value = 0.1;      // Đóng cổng không quá đột ngột
+
+            currentNode.connect(noiseGate);
+            currentNode = noiseGate; // Node tiếp theo sẽ kết nối vào noiseGate
+        }
+
+        // 2. Compressor
+        const compressor = offlineCtx.createDynamicsCompressor();
+        compressor.threshold.value = parseFloat(controlElements.compThreshold.value);
+        compressor.ratio.value = parseFloat(controlElements.compRatio.value);
+        compressor.knee.value = 6;
+        compressor.attack.value = 0.003;
+        compressor.release.value = 0.25;
+        currentNode.connect(compressor);
+        currentNode = compressor;
+
+        // 3. Equalizer
+        const eqLow = offlineCtx.createBiquadFilter();
+        eqLow.type = 'lowshelf';
+        eqLow.frequency.value = 320;
+        eqLow.gain.value = parseFloat(controlElements.eqLow.value);
+
+        const eqMid = offlineCtx.createBiquadFilter();
+        eqMid.type = 'peaking';
+        eqMid.frequency.value = 1000;
+        eqMid.Q.value = 1;
+        eqMid.gain.value = parseFloat(controlElements.eqMid.value);
+
+        const eqHigh = offlineCtx.createBiquadFilter();
+        eqHigh.type = 'highshelf';
+        eqHigh.frequency.value = 3200;
+        eqHigh.gain.value = parseFloat(controlElements.eqHigh.value);
+
+        currentNode.connect(eqLow);
+        eqLow.connect(eqMid);
+        eqMid.connect(eqHigh);
+        currentNode = eqHigh; // Node cuối cùng trong chuỗi EQ là eqHigh
+
+        // 4. Reverb
+        const reverbMix = parseFloat(controlElements.reverbMix.value);
+        if (reverbMix > 0) {
+            const convolver = offlineCtx.createConvolver();
+            const wetGain = offlineCtx.createGain();
+            const dryGain = offlineCtx.createGain();
+            wetGain.gain.value = reverbMix;
+            dryGain.gain.value = 1 - reverbMix;
+
+            const impulseBuffer = await createImpulseResponse(offlineCtx);
+            convolver.buffer = impulseBuffer;
+            
+            currentNode.connect(convolver);
+            convolver.connect(wetGain);
+            wetGain.connect(offlineCtx.destination);
+            
+            currentNode.connect(dryGain);
+            dryGain.connect(offlineCtx.destination);
+        } else {
+            // Nếu không có reverb, kết nối thẳng tới đích
+            currentNode.connect(offlineCtx.destination);
+        }
+
+        source.start(0);
+
+        const renderedBuffer = await offlineCtx.startRendering();
+
+        statusDiv.textContent = 'Xử lý hoàn tất! Đang tạo tệp âm thanh...';
+        const wavBlob = bufferToWave(renderedBuffer);
+
+        if (currentProcessedUrl) {
+            URL.revokeObjectURL(currentProcessedUrl);
+        }
+        currentProcessedUrl = URL.createObjectURL(wavBlob);
+
+        processedPlayer.src = currentProcessedUrl;
+        
+        processButton.disabled = false;
+        downloadButton.disabled = false;
+        statusDiv.textContent = 'Hoàn tất! Bạn có thể nghe thử hoặc nhấn nút "Tải Xuống".';
+    }
+
+    function handleDownload() {
+        if (!processedPlayer.src || processedPlayer.src.startsWith('blob:') === false) {
+            alert("Chưa có âm thanh đã xử lý để tải xuống.");
+            return;
+        }
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = processedPlayer.src;
+        a.download = 'processed_audio.wav';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
+    async function createImpulseResponse(context) {
+        const sampleRate = context.sampleRate;
+        const length = sampleRate * 2; // 2 seconds reverb
+        const impulse = context.createBuffer(2, length, sampleRate);
+        const left = impulse.getChannelData(0);
+        const right = impulse.getChannelData(1);
+        for (let i = 0; i < length; i++) {
+            const n = length - i;
+            left[i] = (Math.random() * 2 - 1) * Math.pow(n / length, 2.5);
+            right[i] = (Math.random() * 2 - 1) * Math.pow(n / length, 2.5);
+        }
+        return impulse;
+    }
+
+    function bufferToWave(abuffer) {
+        const numOfChan = abuffer.numberOfChannels,
+            length = abuffer.length * numOfChan * 2 + 44,
+            buffer = new ArrayBuffer(length),
+            view = new DataView(buffer),
+            channels = [],
+            sampleRate = abuffer.sampleRate;
+        let offset = 0, pos = 0;
+        const setUint16 = (data) => { view.setUint16(pos, data, true); pos += 2; };
+        const setUint32 = (data) => { view.setUint32(pos, data, true); pos += 4; };
+        setUint32(0x46464952); // "RIFF"
+        setUint32(length - 8);
+        setUint32(0x45564157); // "WAVE"
+        setUint32(0x20746d66); // "fmt "
+        setUint32(16);
+        setUint16(1);
+        setUint16(numOfChan);
+        setUint32(sampleRate);
+        setUint32(sampleRate * 2 * numOfChan);
+        setUint16(numOfChan * 2);
+        setUint16(16);
+        setUint32(0x61746164); // "data"
+        setUint32(length - pos - 4);
+        for (let i = 0; i < abuffer.numberOfChannels; i++)
+            channels.push(abuffer.getChannelData(i));
+        while (pos < length) {
+            for (let i = 0; i < numOfChan; i++) {
+                let sample = Math.max(-1, Math.min(1, channels[i][offset]));
+                sample = (sample < 0 ? sample * 0x8000 : sample * 0x7FFF);
+                view.setInt16(pos, sample, true);
+                pos += 2;
+            }
+            offset++;
+        }
+        return new Blob([buffer], { type: "audio/wav" });
+    }
+});
+</script>
+
+</body>
+</html>
