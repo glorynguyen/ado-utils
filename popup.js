@@ -6,7 +6,6 @@ const MODEL_ID = "Qwen2-1.5B-Instruct";
 const TABBY_URL = "http://localhost:8080/v1/chat/completions";
 const OLLAMA_URL = "http://localhost:4000/api/generate";
 const OLLAMA_MODEL = "qwen2.5-coder:14b-instruct-q4_0";
-const PLACEHOLDER_TEXT = "Describe the code that is being reviewed";
 
 const PR_TEMPLATE = `
 ---
@@ -203,6 +202,7 @@ function setupFillButton() {
 // Content Script: Fill Description
 // ===============================
 function fillDescription(template) {
+  const PLACEHOLDER_TEXT = "Describe the code that is being reviewed";
   const textarea = document.querySelector(`textarea[placeholder="${PLACEHOLDER_TEXT}"]`);
   const number = document.querySelector('.repos-pr-create-header-first-row')
     ?.nextSibling?.children[0]
