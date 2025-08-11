@@ -4,6 +4,8 @@
 const AUTH_TOKEN = "auth_4070765019154941b288470381956ac5";
 const MODEL_ID = "Qwen2-1.5B-Instruct";
 const TABBY_URL = "http://localhost:8080/v1/chat/completions";
+const OLLAMA_URL = "http://localhost:4000/api/generate";
+const OLLAMA_MODEL = "qwen2.5-coder:14b-instruct-q4_0";
 const PLACEHOLDER_TEXT = "Describe the code that is being reviewed";
 
 const PR_TEMPLATE = `
@@ -82,6 +84,56 @@ async function getTabbyResponse(prompt) {
 }
 
 // ===============================
+// API: Ollama Chat Completion (Moved from background.js)
+// ===============================
+async function getOllamaResponse(prompt) {
+  const payload = {
+    model: OLLAMA_MODEL,
+    prompt: prompt,
+    stream: false // NOTE: Set to false for simpler response handling. If you need streaming, the original logic is fine.
+  };
+
+  let fullResponseContent = "";
+
+  const response = await fetch(OLLAMA_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+  // This handles both streaming and non-streaming responses from Ollama
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    // Ollama's response is a series of JSON objects, one per line.
+    for (const line of chunk.split("\n")) {
+      if (!line.trim()) continue;
+
+      try {
+        const data = JSON.parse(line);
+        // The final response object has a `response` key with the full content
+        // while streaming objects have it too. This accumulates the entire response.
+        if (data.response) {
+           fullResponseContent += data.response;
+        }
+      } catch (err) {
+        console.error("Failed to parse JSON line from Ollama:", line);
+        // Ignore invalid JSON
+      }
+    }
+  }
+  return fullResponseContent;
+}
+
+
+// ===============================
 // UI Handlers
 // ===============================
 function setupTabSwitching() {
@@ -99,28 +151,31 @@ function setupTabSwitching() {
 function setupChatSend() {
   document.getElementById("sendChat").addEventListener("click", async () => {
     const prompt = document.getElementById("chatInput").value;
-    const outputDiv = document.getElementById("chatOutput");
-    outputDiv.textContent = "Thinking...";
+    const output = document.getElementById("chatOutput");
+    const modelChoice = document.getElementById("modelSelector").value;
+
+    if (!prompt) {
+        output.textContent = "Please enter a prompt.";
+        return;
+    }
+
+    output.textContent = "Thinking...";
 
     try {
-      const data = await getTabbyResponse(prompt);
-
-      // Parse markdown → HTML
-      const htmlContent = marked.parse(data);
-
-      // Inject into chatOutput
-      outputDiv.innerHTML = htmlContent;
-
-      // Highlight any code blocks
-      outputDiv.querySelectorAll('pre code').forEach(block => {
-        hljs.highlightElement(block);
-      });
-
+      let result = "";
+      if (modelChoice === "tabby") {
+        result = await getTabbyResponse(prompt);
+      } else {
+        // Directly call the local Ollama function
+        result = await getOllamaResponse(prompt);
+      }
+      output.textContent = result;
     } catch (err) {
-      outputDiv.textContent = "Error: " + err.message;
+      output.textContent = "Error: " + err.message;
     }
   });
 }
+
 
 function setupPullRequestsButton() {
   const pullRequests = document.getElementById('pullRequests');
@@ -154,34 +209,25 @@ function fillDescription(template) {
     ?.querySelector('.text-ellipsis')?.querySelector('.text-ellipsis')
     ?.innerHTML.match(/\d+/g);
 
-  const ticketId = number ? number[0] : null;
-  let textToType = template.replace("{ticketId}", ticketId);
+  const ticketId = number ? number[0] : 'TICKET-ID'; // Fallback if not found
+  let textToType = template.replace("#{ticketId}", ticketId);
 
   if (!textarea) {
     console.error(`Textarea with placeholder "${PLACEHOLDER_TEXT}" not found.`);
-    alert(`Không tìm thấy ô textarea với placeholder: "${PLACEHOLDER_TEXT}"`);
+    alert(`Could not find the PR description textarea with placeholder: "${PLACEHOLDER_TEXT}"`);
     return;
   }
 
   textarea.focus();
   let i = 0;
-  const typingInterval = 1;
+  const typingInterval = 1; // Faster typing
 
-  const typeChar = () => {
-    if (i < textToType.length) {
-      textarea.value += textToType.charAt(i);
-      textarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-      textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
-      textarea.scrollTop = textarea.scrollHeight;
-      i++;
-      setTimeout(typeChar, typingInterval);
-    } else {
-      console.log(`Completed typing PR description.`);
-      textarea.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-  };
-
-  typeChar();
+  // Set value directly for speed and reliability, then dispatch events
+  textarea.value = textToType;
+  textarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+  textarea.dispatchEvent(new Event('change', { bubbles: true }));
+  textarea.scrollTop = textarea.scrollHeight;
+  console.log(`Filled PR description.`);
 }
 
 // ===============================

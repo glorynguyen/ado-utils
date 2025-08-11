@@ -1,0 +1,23 @@
+{
+  "name": "pr-template-ext",
+  "version": "1.0.0",
+  "description": "![Extension Icon](./icons/icon48.png)",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glorynguyen/ado-utils.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glorynguyen/ado-utils/issues"
+  },
+  "homepage": "https://github.com/glorynguyen/ado-utils#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

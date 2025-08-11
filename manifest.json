@@ -5,7 +5,9 @@
     "description": "Tự động dán mẫu PR vào trang tạo Pull Request trên GitHub.",
     "permissions": [
         "activeTab",
-        "scripting"
+        "scripting",
+        "storage", 
+        "background"
     ],
     "action": {
         "default_popup": "popup.html",

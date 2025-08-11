@@ -142,6 +142,7 @@
             overflow-x: auto;
             font-size: 13px;
         }
+
         #chatOutput code {
             font-family: Consolas, Monaco, 'Courier New', monospace;
         }
@@ -165,8 +166,12 @@
 
     <!-- Chat Tab -->
     <div id="chatTab" class="tab-content hidden">
-        <h3>Chat with TabbyML</h3>
+        <h3>Chat with AI</h3>
         <div id="chatContainer">
+            <select id="modelSelector">
+                <option value="tabby">Tabby</option>
+                <option value="ollama">Ollama (Qwen 14B)</option>
+            </select>
             <input type="text" id="chatInput" placeholder="Ask something..." />
             <button id="sendChat">Send</button>
             <div id="chatOutput"></div>
