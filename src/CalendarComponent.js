@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid'; // month view
-import interactionPlugin from '@fullcalendar/interaction'; // click events
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 const CalendarComponent = ({ events }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [selectedAssignees, setSelectedAssignees] = useState([]); // Array to hold selected assignees
+  const [selectedAssignees, setSelectedAssignees] = useState([]);
 
   const handleEventClick = (info) => {
     setSelectedEvent(info.event);
@@ -19,72 +19,100 @@ const CalendarComponent = ({ events }) => {
   };
 
   const toggleAssigneeSelection = (assignee) => {
-    if (selectedAssignees.includes(assignee)) {
-      setSelectedAssignees(selectedAssignees.filter(a => a !== assignee));
-    } else {
-      setSelectedAssignees([...selectedAssignees, assignee]);
-    }
+    setSelectedAssignees(prev =>
+      prev.includes(assignee)
+        ? prev.filter(a => a !== assignee)
+        : [...prev, assignee]
+    );
   };
 
-  const filterEventsByAssignee = (events) => {
+  // Memoize filtered events for performance, re-calculating only when events or filters change.
+  const filteredEvents = React.useMemo(() => {
     if (selectedAssignees.length === 0) {
       return events;
     }
     return events.filter(event => selectedAssignees.includes(event.assignee));
-  };
-
-  const filteredEvents = filterEventsByAssignee(events);
+  }, [events, selectedAssignees]);
+  
+  // Get a unique list of assignees for the filter controls
+  const allAssignees = React.useMemo(() => 
+    Array.from(new Set(events.map(event => event.assignee))).sort(), 
+  [events]);
 
   return (
-    <div>
-      <h3>Filter by Assignee:</h3>
-      {Array.from(new Set(events.map(event => event.assignee))).map(assignee => (
-        <label key={assignee}>
-          <input
-            type="checkbox"
-            checked={selectedAssignees.includes(assignee)}
-            onChange={() => toggleAssigneeSelection(assignee)}
-          />
-          {assignee}
-        </label>
-      ))}
+    <div className="calendar-container">
+      <div className="filter-section">
+        <h3 className="filter-title">Filter by Assignee</h3>
+        <div className="filter-controls">
+          {allAssignees.map(assignee => (
+            <label key={assignee} className="custom-checkbox-label">
+              <input
+                type="checkbox"
+                checked={selectedAssignees.includes(assignee)}
+                onChange={() => toggleAssigneeSelection(assignee)}
+              />
+              <span className="checkbox-visual"></span>
+              <span>{assignee}</span>
+            </label>
+          ))}
+        </div>
+      </div>
 
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        initialDate="2025-08-10"
-        events={filteredEvents} // Use the filtered events here
-        eventClick={handleEventClick}
-        height="600px"
-      />
+      <div className="calendar-wrapper">
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,dayGridWeek'
+          }}
+          initialDate="2025-08-10"
+          events={filteredEvents}
+          eventClick={handleEventClick}
+          height="auto" // Let the wrapper control the height
+          
+          // --- THIS IS THE NEW PROPERTY ---
+          // Set to false to prevent event stacking (+n more) and allow rows to expand
+          dayMaxEvents={false} 
+
+          eventDidMount={(info) => {
+            // Add assignee to the event element for potential styling
+            if (info.event.extendedProps.assignee) {
+              info.el.setAttribute('data-assignee', info.event.extendedProps.assignee);
+            }
+          }}
+        />
+      </div>
 
       {modalVisible && selectedEvent && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-wrapper" onClick={(e) => e.stopPropagation()}>
-            <strong>{selectedEvent.title}</strong>
-            <br />
-            Date: {selectedEvent.start.toDateString()}
-            <br />
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2 className="modal-title">{selectedEvent.title}</h2>
+            <p className="modal-date">
+              {selectedEvent.start.toLocaleDateString()}
+            </p>
 
             {selectedEvent.extendedProps.detail?.notes?.length > 0 && (
-              <ul>
+              <ul className="modal-notes-list">
                 {selectedEvent.extendedProps.detail.notes.map((note, index) => (
-                  <li key={index}>
+                  <li key={index} className="modal-note-item">
+                    <strong>{note.title}:</strong>
                     {note.link ? (
                       <a target="_blank" href={note.link} rel="noreferrer">
-                        <strong>{note.title}:</strong> {note.status}
+                        {note.status}
                       </a>
                     ) : (
-                      <span>
-                        <strong>{note.title}:</strong> {note.status}
-                      </span>
+                      <span> {note.status}</span>
                     )}
                   </li>
                 ))}
               </ul>
             )}
-
-            <button onClick={closeModal}>Close</button>
+            
+            <div className="modal-actions">
+              <button className="modal-close-button" onClick={closeModal}>Done</button>
+            </div>
           </div>
         </div>
       )}

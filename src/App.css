@@ -1,20 +1,363 @@
+/* --- Global & Typography --- */
+:root {
+  --apple-blue: #007aff;
+  --bg-color: #f5f5f7;
+  --container-bg: #ffffff;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --border-color: #d2d2d7;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 2rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Main Container --- */
+.calendar-container {
+  background-color: var(--container-bg);
+  border-radius: 18px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+  transition: all 0.3s ease;
+}
+
+/* --- Filter Section --- */
+.filter-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filter-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* --- Custom Checkbox Styling --- */
+.custom-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.custom-checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox-label .checkbox-visual {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  margin-right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-checkbox-label .checkbox-visual::after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  background-size: contain;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.custom-checkbox-label input:checked + .checkbox-visual {
+  background-color: var(--apple-blue);
+  border-color: var(--apple-blue);
+}
+
+.custom-checkbox-label input:checked + .checkbox-visual::after {
+  opacity: 1;
+}
+
+/* --- FullCalendar Overrides --- */
+.calendar-wrapper .fc {
+  font-family: var(--font-family);
+}
+
+.calendar-wrapper .fc-toolbar-title {
+  font-size: 1.75rem !important;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.calendar-wrapper .fc-toolbar.fc-header-toolbar {
+  flex-wrap: wrap; /* Allow toolbar to wrap on smaller screens */
+  gap: 0.5rem;
+}
+
+.calendar-wrapper .fc-button {
+  background: var(--bg-color) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  font-weight: 500;
+  text-transform: capitalize;
+  box-shadow: none !important;
+  transition: background-color 0.2s ease;
+}
+
+.calendar-wrapper .fc-button:hover {
+  background-color: #e5e5e7 !important;
+}
+
+.calendar-wrapper .fc-button-primary:not(:disabled).fc-button-active {
+  background: var(--apple-blue) !important;
+  border-color: var(--apple-blue) !important;
+  color: white !important;
+}
+
+.calendar-wrapper .fc-col-header-cell-cushion {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-decoration: none !important;
+  padding: 0.5rem 0.25rem;
+}
+
+.calendar-wrapper .fc-daygrid-day-number {
+  color: var(--text-secondary);
+  text-decoration: none !important;
+  padding: 8px;
+}
+
+/* Event Styling */
+.calendar-wrapper .fc-event {
+  border: none !important;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.calendar-wrapper .fc-event-main {
+  color: white !important;
+}
+
+/* --- FIX FOR OVERLAPPING EVENTS --- */
+.fc .fc-daygrid-day-events {
+  margin-top: 2px;
+}
+
+.fc-daygrid-event {
+  position: relative !important;
+  margin-bottom: 4px !important;
+}
+
+/* --- Modal Styling --- */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9998;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
 }
 
-.modal-wrapper {
-  padding: 15px;
-  background-color: #fff;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: var(--container-bg);
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.modal-date {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.modal-notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.modal-note-item {
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.modal-note-item strong {
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-right: 0.5em;
+}
+
+.modal-note-item a {
+  color: var(--apple-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.modal-note-item a:hover {
+  text-decoration: underline;
+}
+
+.modal-actions {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.modal-close-button {
+  background-color: var(--apple-blue);
+  color: white;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-close-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+
+/*
+========================================
+--- RESPONSIVE STYLES ---
+========================================
+*/
+
+/* --- TABLET --- (<= 768px) */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .calendar-container {
+    padding: 1.5rem;
+  }
+
+  .calendar-wrapper .fc-toolbar-title {
+    font-size: 1.5rem !important;
+  }
+
+  /* Stack toolbar elements for more space */
+  .calendar-wrapper .fc-header-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* --- MOBILE --- (<= 576px) */
+@media (max-width: 576px) {
+  body {
+    padding: 0;
+    background-color: var(--container-bg); /* Match body to container bg */
+  }
+
+  .calendar-container {
+    padding: 1rem;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .filter-title {
+    font-size: 1.1rem;
+  }
+
+  /* Make day headers (Sun, Mon) smaller */
+  .calendar-wrapper .fc-col-header-cell-cushion {
+    font-size: 0.75rem;
+    padding: 0.5rem 0;
+  }
+  
+  /* Make event text smaller */
+  .calendar-wrapper .fc-event {
+    font-size: 0.75rem;
+    padding: 3px 5px;
+  }
+
+  /* Adjust day number styles for smaller space */
+  .calendar-wrapper .fc-daygrid-day-number {
+    padding: 4px;
+    font-size: 0.8rem;
+  }
+
+  .calendar-wrapper .fc-day-today .fc-daygrid-day-number {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Full width modal button for easy tapping */
+  .modal-actions {
+    margin-top: 1.5rem;
+  }
+  
+  .modal-close-button {
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 1rem;
+  }
 }
