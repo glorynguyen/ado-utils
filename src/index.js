@@ -70,6 +70,7 @@ function mapAdoItemToEvent(adoItem) {
             eventColor = colors.qa;
             break;
         case 'closed':
+        case 'completed':
         case 'done':
             eventColor = colors.done;
             break;
