@@ -1,19 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import CalendarComponent from './CalendarComponent';
 import './App.css';
 
-// --- Data & Configuration ---
-
-// The CSV data exported from ADO
-const adoCsvData = `
-ID,Work Item Type,Title,Assigned To,State,Tags,Start Date,Target Date
-"18540","User Story","[FE] GlobalSearch (Main Navigation) - Integration","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New","Sprint 5","8/12/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
-"19113","User Story","[FE] [Visual QA] Brands Carousel: Bug fixing","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New","Sprint 5",,
-"19671","User Story","[FE] GTM","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New","Sprint 5",,
-"19673","User Story","[FE] Bynder Integration","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New","Sprint 5",,
-`;
-
+// --- Configuration ---
 const colors = {
     dev: "#5cb85c",
     qa: 'lightgreen',
@@ -21,10 +11,8 @@ const colors = {
     warning: '#baba18',
     done: '#2577c8',
 };
-const { dev, qa, blocker, warning, done } = colors;
 
-
-// --- Helper Functions to Process ADO Data ---
+// --- Helper Functions to Process ADO Data (No changes needed here) ---
 
 /**
  * Parses a CSV string into an array of objects.
@@ -55,32 +43,27 @@ function parseCSV(csvText) {
  * @returns {Object|null} A calendar event object or null if data is invalid.
  */
 function mapAdoItemToEvent(adoItem) {
-    // Skip items that don't have a start or target date
     if (!adoItem['Start Date'] || !adoItem['Target Date']) {
         return null;
     }
 
-    // Extract first name from "LastName, FirstName - Contractor..." format
     const assignedToString = adoItem['Assigned To'];
     const nameMatch = assignedToString.match(/,\s*(\w+)/);
     const assignee = nameMatch ? nameMatch[1] : 'Unassigned';
 
-    // Format dates to YYYY-MM-DD
     const startDate = new Date(adoItem['Start Date']);
     const targetDate = new Date(adoItem['Target Date']);
     
-    // Most calendar libraries treat the 'end' date as exclusive.
-    // To make the event visually include the target day, we add one day to it.
     targetDate.setDate(targetDate.getDate() + 1);
 
     const start = startDate.toISOString().split('T')[0];
     const end = targetDate.toISOString().split('T')[0];
     
-    // Determine color based on the 'State'
     let eventColor;
     switch (adoItem['State'].toLowerCase()) {
         case 'new':
         case 'active':
+        case 'in progress':
             eventColor = colors.dev;
             break;
         case 'resolved':
@@ -92,6 +75,13 @@ function mapAdoItemToEvent(adoItem) {
             break;
         default:
             eventColor = colors.warning;
+    }
+    const tags = adoItem['Tags']?.toLowerCase();
+    if (tags?.includes('discussing')) {
+        eventColor = colors.warning;
+    }
+    if (tags?.includes('block')) {
+        eventColor = colors.blocker;
     }
 
     return {
@@ -111,156 +101,52 @@ function mapAdoItemToEvent(adoItem) {
 }
 
 
-// --- Main Application Logic ---
+// --- Main App Component ---
 
-// 1. Parse the raw CSV data
-const adoItems = parseCSV(adoCsvData);
+function App() {
+  // State to hold the events. Starts as an empty array.
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-// 2. Map the parsed data to calendar events and filter out any invalid items
-const eventsFromAdo = adoItems.map(mapAdoItemToEvent).filter(Boolean); // .filter(Boolean) removes nulls
+  // useEffect hook to fetch data when the component mounts
+  useEffect(() => {
+    // We define an async function inside to use await
+    const fetchAdoData = async () => {
+      try {
+        // Fetch the CSV file from the public folder
+        const response = await fetch('/data.csv');
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        const csvText = await response.text();
+        
+        // Process the data using our helper functions
+        const adoItems = parseCSV(csvText);
+        const eventsFromAdo = adoItems.map(mapAdoItemToEvent).filter(Boolean);
+        
+        // Update the component's state with the new events
+        setEvents(eventsFromAdo);
 
-// Your original, manually-created events
-const manualEvents = [
-    {
-        assignee: "Vincent", title: 'Lead Story', start: '2025-08-01', end: '2025-08-06', color: done, detail: {
-            notes: [{
-                title: "Slack",
-                status: "Thread",
-                link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753851879630259"
-            }, {
-                title: "Work",
-                status: "Mapping data"
-            }, {
-                title: "Ticket",
-                status: "Lead Story",
-                link: "https://dev.azure.com/PepsiCoIT2/CGF_PepsiCocom_Redesign/_boards/board/t/CGF_PepsiCocom_Redesign%20Team/Stories?System.WorkItemType=User%20Story&System.IterationPath=CGF_PepsiCocom_Redesign%5CDevelopment%20Sprints%5CSprint%204&System.AssignedTo=%40me&workitem=12949"
-            }]
-        }
-    },
-    {
-        assignee: "Vincent", title: 'Related Topics', start: '2025-07-31', end: '2025-08-02', color: done,
-        detail: {
-            notes: [{
-                title: "PR",
-                status: "Reviewing",
-            }, {
-                title: "Ticket",
-                status: "User Story",
-                link: "https://dev.azure.com/PepsiCoIT2/CGF_PepsiCocom_Redesign/_boards/board/t/CGF_PepsiCocom_Redesign%20Team/Stories?System.WorkItemType=User%20Story&System.AssignedTo=%40me&System.IterationPath=CGF_PepsiCocom_Redesign%5CDevelopment%20Sprints%5CSprint%204&workitem=12132"
-            }]
-        }
-    },
-    {
-        assignee: "Vincent", title: 'Article Hero', start: '2025-08-04', end: '2025-08-07', color: done, detail: {
-            notes: [{
-                title: "Slack",
-                status: "Thread",
-                link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753804682604499"
-            }, {
-                title: "Ticket",
-                status: "Article Hero",
-                link: "https://dev.azure.com/PepsiCoIT2/CGF_PepsiCocom_Redesign/_workitems/edit/14260"
-            }]
-        }
-    },
-    // Harvey Bui
-    {
-        assignee: "Harvey",
-        title: "Dynamic Product Grid (All Brands, Filter, Search)",
-        start: '2025-07-30',
-        end: '2025-08-05',
-        color: done
-    },
-    {
-        assignee: "Harvey",
-        title: "Bento Stats (Reuse existing Bento Grid)",
-        start: '2025-08-04',
-        end: '2025-08-06',
-        color: done
-    },
-    {
-        assignee: "Harvey",
-        title: "[FE] Dynamic Product Grid (Featured tab)",
-        start: '2025-08-01',
-        end: '2025-08-05',
-        color: done,
-        detail: {
-            notes: [{
-                title: "Missing field",
-                status: "Thread",
-                link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753867157569179"
-            }]
-        }
-    },
-    // Karim
-    {
-        assignee: "Karim",
-        title: "Featured News",
-        start: '2025-07-31',
-        end: '2025-08-02',
-        color: done
-    },
-    {
-        assignee: "Karim",
-        title: "Dynamic News Grid",
-        start: '2025-08-01',
-        end: '2025-08-08',
-        color: dev,
-        detail: {
-            notes: [{
-                title: "Slack",
-                status: "Thread",
-                link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753764656522189"
-            }]
-        }
-    },
-    // Henry
-    {
-        assignee: "Henry",
-        title: "Social Profile Links",
-        start: '2025-07-31',
-        end: '2025-08-02',
-        color: done,
-        detail: {
-            notes: [{
-                title: "Missing field",
-                status: "Slack Thread",
-                link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753951955880779"
-            }]
-        }
-    },
-    {
-        assignee: "Henry",
-        title: "ESG Topic Hero",
-        start: '2025-08-04',
-        end: '2025-08-07',
-        color: done,
-        detail: {
-            notes: [{
-                title: "Slack",
-                status: "Thread",
-                link: "https://hugeinc.slack.com/archives/C091RQTMYG3/p1753869166645969"
-            }, {
-                title: "Action",
-                status: "Work with Karim to clarify"
-            }]
-        }
+      } catch (error) {
+        console.error("Failed to fetch or parse CSV data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    },
-    {
-        assignee: "Henry",
-        title: "Accordion",
-        start: '2025-07-30',
-        end: '2025-07-31',
-        color: done
-    }
-];
+    fetchAdoData();
+  }, []); // The empty array [] means this effect runs only once after the initial render
 
-// 3. Combine both manual and ADO-generated events into one array
-const allEvents = [...eventsFromAdo];
+  if (isLoading) {
+    return <div>Loading Calendar Data...</div>;
+  }
+  
+  return <CalendarComponent events={events} />;
+}
+
 
 // --- Render the Application ---
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
-root.render(<CalendarComponent events={allEvents} />);
+root.render(<App />);

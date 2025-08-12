@@ -52,7 +52,7 @@ const CalendarComponent = ({ events }) => {
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        initialDate="2025-07-30"
+        initialDate="2025-08-10"
         events={filteredEvents} // Use the filtered events here
         eventClick={handleEventClick}
         height="600px"
