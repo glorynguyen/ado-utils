@@ -1,37 +1,48 @@
-ID,Work Item Type,Title,Assigned To,State,Tags,Start Date,Target Date
-"18530","User Story","[FE] Featured Media - UI only","Amaya, Kevin - Contractor {PEP} <Kevin.Amaya.Contractor@pepsico.com>","In Progress",,,
-"20109","User Story","[FE] Featured Media - Integration","Amaya, Kevin - Contractor {PEP} <Kevin.Amaya.Contractor@pepsico.com>","New",,,
-"20159","User Story","[FE] [Visual QA] RCE: fixing issue","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/19/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
-"20631","User Story","[FE] [Visual QA] Inline Callout: fixing issue","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/19/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
-"19097","User Story","[FE] [Visual QA] L2 Hero: Add more space between the nav and Hero text","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/18/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
-"18533","User Story","[FE] Global Navigation (Integration)","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New","Sprint 5","8/14/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
-"17965","User Story","[FE] L1 Hero: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
-"17967","User Story","[FE] L2 Hero: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
-"17968","User Story","[FE] Immersive Statement: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
-"16872","User Story","[FE] Global Navigation (FE layout only)","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","In Progress","Sprint 5","8/7/2025 5:27:00 PM","8/13/2025 7:00:00 AM"
-"18535","User Story","[FE] Footer (Integration)","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","Sprint 5","8/8/2025 7:00:00 AM","8/13/2025 7:00:00 AM"
-"19111","User Story","[FE] [Visual QA] Immersive Statement: enhance the Image zoom","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed",,,
-"19673","User Story","[FE] Bynder Integration","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","Sprint 5","8/21/2025 7:00:00 AM","8/22/2025 7:00:00 AM"
-"18528","User Story","[FE] Media Grid","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New","In discussing; Sprint 5","8/18/2025 7:00:00 AM","8/19/2025 7:00:00 PM"
-"15404","User Story","[FE] Dynamic News Grid - Search Functionality","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","In Progress","In discussing; Sprint 5","8/12/2025 10:30:00 PM","8/14/2025 1:00:00 AM"
-"20632","User Story","[FE] [Visual QA] Featured Links and Tab: fixing issue","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New",,,
-"16878","User Story","[FE] Modal Grid (Our Leadership)","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New","In discussing; Sprint 5","8/14/2025 7:00:00 AM","8/16/2025 1:00:00 AM"
-"17528","User Story","[FE] [Visual QA] Cards Carousel: apply same layout with 3 cards when there are 2 cards only","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New",,"8/14/2025 7:00:00 AM",
-"17681","User Story","[FE] Feature Links + Tab: enhacement for breakpoints 768 px - 895 px","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New","Sprint 5","8/19/2025 7:00:00 PM","8/20/2025 7:00:00 PM"
-"20629","User Story","[FE] [Visual QA] Subscribe Form: fixing issue","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New",,,
-"20630","User Story","[FE] [Visual QA] Auto Advancing: fixing issue","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","In Progress",,,
-"16874","User Story","[FE] Secondary Nav - UI + animation","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","Committed","Sprint 5","8/12/2025 7:00:00 AM","8/14/2025 7:00:00 AM"
-"11195","User Story","[FE] Type Marquee (Horizontally Moving Effect)","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","New",,"8/18/2025 7:00:00 AM","8/21/2025 7:00:00 AM"
-"20636","User Story","[FE] ESG Topic Hero: 1st level Breadcrumb","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","Committed",,,
-"20146","User Story","[FE] Secondary Nav - Integration","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","New","In discussing","8/14/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
-"20628","User Story","[FE] [Visual QA] Image RCE: Fixing issue","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New",,,
-"20638","User Story","[FE] Article Hero: 1st level Breadcrumb","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","Committed",,,
-"18518","User Story","[FE] Search Results","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","Rejected",,,
-"19113","User Story","[FE] [Visual QA] Brands Carousel: Bug fixing","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New","Sprint 5","8/25/2025 7:00:00 AM","8/26/2025 7:00:00 AM"
-"19671","User Story","[FE] GTM","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","New","In discussing; Sprint 5","8/18/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
-"18540","User Story","[FE] GlobalSearch (Main Navigation) - Integration","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","In Progress","In discussing; Sprint 5","8/12/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
-"19096","User Story","[FE] [Visual QA] Quick links: headline enhancement","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,"8/12/2025 7:00:00 AM","8/14/2025 7:00:00 AM"
-"18002","User Story","[FE] Quick links: apply hover effect like the Play button in L2 Hero","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,,
+﻿ID,Work Item Type,Title,Assigned To,State,Tags,Start Date,Target Date
+"11195","User Story","[FE] Type Marquee (Horizontally Moving Effect)","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
 "14772","User Story","[FE] L2 Hero: Apply the page color theme when component does not select colorways","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,,"7/30/2025 7:00:00 AM"
-"17964","User Story","[FE] Billboard Split Screen: center the numbers in the pills","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,,
-"19112","User Story","[FE] [Visual QA] HomePage Hero: issue fixing","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,"8/11/2025 11:32:00 PM","8/12/2025 7:00:00 AM"
+"15404","User Story","[FE] Dynamic News Grid - Search Functionality","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed","Confirmed Data; Finished Layout; Sprint 5","8/12/2025 10:30:00 PM","8/14/2025 1:00:00 AM"
+"16872","User Story","[FE] Global Navigation (FE layout only)","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed","Sprint 5","8/7/2025 5:27:00 PM","8/13/2025 7:00:00 AM"
+"16874","User Story","[FE] Secondary Nav - UI + animation","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed","Sprint 5","8/12/2025 7:00:00 AM","8/14/2025 7:00:00 AM"
+"16878","User Story","[FE] Modal Grid (Our Leadership)","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","Finished Layout; Sprint 5","8/14/2025 7:00:00 AM","8/16/2025 1:00:00 AM"
+"17528","User Story","[FE] [Visual QA] Cards Carousel: apply same layout with 3 cards when there are 2 cards only","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,"8/14/2025 7:00:00 AM",
+"17681","User Story","[FE] Feature Links + Tab: enhacement for breakpoints 768 px - 895 px","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","New","Sprint 5","8/21/2025 7:00:00 AM","8/21/2025 7:00:00 AM"
+"17964","User Story","[FE] Billboard Split Screen: center the numbers in the pills","Dang, Alex - Contractor {PEP} <Alex.Dang.Contractor@pepsico.com>","Closed",,,
+"17965","User Story","[FE] L1 Hero: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","Completed",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
+"17967","User Story","[FE] L2 Hero: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","Completed",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
+"17968","User Story","[FE] Immersive Statement: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","Completed",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
+"18002","User Story","[FE] Quick links: apply hover effect like the Play button in L2 Hero","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,,
+"18518","User Story","[FE] Search Results","Nguyen, Vincent - Contractor {PEP} <Vincent.Nguyen.Contractor@pepsico.com>","Rejected",,,
+"18528","User Story","[FE] Media Grid","Doan, Karim - Contractor {PEP} <Karim.Doan.Contractor@pepsico.com>","In Progress","In discussing; Sprint 5","8/19/2025 7:00:00 AM","8/21/2025 7:00:00 AM"
+"18530","User Story","[FE] Featured Media - UI only","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed",,"8/13/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
+"18533","User Story","[FE] Global Navigation (Integration)","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed","Sprint 5","8/14/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
+"18535","User Story","[FE] Footer (Integration)","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","Sprint 5","8/8/2025 7:00:00 AM","8/13/2025 7:00:00 AM"
+"18540","User Story","[FE] GlobalSearch (Main Navigation) - Integration","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","In discussing; Sprint 5","8/12/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
+"19096","User Story","[FE] [Visual QA] Quick links: headline enhancement","Dang, Alex - Contractor {PEP} <Alex.Dang.Contractor@pepsico.com>","Completed",,"8/12/2025 7:00:00 AM","8/14/2025 7:00:00 AM"
+"19097","User Story","[FE] [Visual QA] L2 Hero: Add more space between the nav and Hero text","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,"8/18/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
+"19111","User Story","[FE] [Visual QA] Immersive Statement: enhance the Image zoom","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","In Progress","Waiting for comfirm","8/18/2025 7:00:00 AM","8/20/2025 7:00:00 AM"
+"19112","User Story","[FE] [Visual QA] HomePage Hero: issue fixing","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,"8/11/2025 11:32:00 PM","8/12/2025 7:00:00 AM"
+"19113","User Story","[FE] [Visual QA] Brands Carousel: Bug fixing","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","Sprint 5","8/25/2025 7:00:00 AM","8/26/2025 7:00:00 AM"
+"19671","User Story","[FE] GTM","Dang, Alex - Contractor {PEP} <Alex.Dang.Contractor@pepsico.com>","Completed","In discussing; Sprint 5","8/18/2025 7:00:00 AM","8/22/2025 7:00:00 AM"
+"19673","User Story","[FE] Bynder Integration","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed","Sprint 5","8/14/2025 7:00:00 AM","8/14/2025 7:00:00 AM"
+"20109","User Story","[FE] Featured Media - Integration","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed",,,"8/13/2025 7:00:00 AM"
+"20146","User Story","[FE] Secondary Nav - Integration","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","Completed",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
+"20159","User Story","[FE] [Visual QA] RCE: Set default color theme with Grey headline","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,"8/19/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
+"20628","User Story","[FE] [Visual QA] Image RCE: Fixing issue","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,"8/14/2025 7:00:00 AM","8/14/2025 7:00:00 AM"
+"20629","User Story","[FE] [Visual QA] Subscribe Form: fixing issue","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Completed",,"8/21/2025 7:00:00 AM","8/21/2025 7:00:00 AM"
+"20630","User Story","[FE] [Visual QA] Auto Advancing: fixing issue","Amaya, Kevin - Contractor {PEP} <Kevin.Amaya.Contractor@pepsico.com>","New",,"8/25/2025 7:00:00 AM","8/27/2025 7:00:00 AM"
+"20631","User Story","[FE] [Visual QA] Inline Callout: fixing issue","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,"8/19/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
+"20632","User Story","[FE] [Visual QA] Featured Links and Tab: fixing issue","Amaya, Kevin - Contractor {PEP} <Kevin.Amaya.Contractor@pepsico.com>","New",,"8/27/2025 7:00:00 AM","8/29/2025 7:00:00 AM"
+"20636","User Story","[FE] ESG Topic Hero: 1st level Breadcrumb","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed",,,
+"20638","User Story","[FE] Article Hero: 1st level Breadcrumb","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,,
+"21078","User Story","[FE] [Visual QA] In-page navigation: fixing issue","Tran, Saka - Contractor {PEP} <Saka.Tran.Contractor@pepsico.com>","Closed",,"8/19/2025 7:00:00 AM","8/19/2025 7:00:00 AM"
+"21464","User Story","[FE] ESG Topic Hero: 2nd level Breadcrumb","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed",,"8/15/2025 7:00:00 AM","8/15/2025 7:00:00 AM"
+"21495","User Story","[FE] [Visual QA] RCE: fix font size of Footnote","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","In Progress","Waiting BE update","8/22/2025 7:00:00 AM","8/22/2025 7:00:00 AM"
+"21858","User Story","[FE] Featured Content: enhance to support multiple lines with same color","Do, Jessica - Contractor {PEP} <Jessica.Do.Contractor@pepsico.com>","Completed",,,
+"21864","User Story","[FE] Cards Carousel: handle Richtext for the Body content","Amaya, Kevin - Contractor {PEP} <Kevin.Amaya.Contractor@pepsico.com>","New",,"8/21/2025 7:00:00 AM","8/25/2025 7:00:00 AM"
+"22492","User Story","[FE] [Visual QA] Homepage Hero: slide animation enhancements","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,,
+"22493","User Story","[FE] Secondary Navigation: fixing conflict issue","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","In Progress",,"8/19/2025 7:00:00 AM","8/20/2025 7:00:00 AM"
+"22494","User Story","[FE] Billboard Split Screen: Improve Mobile Scrolling Performance","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,,
+"22514","User Story","[FE] Featured Media - Open Modal (similar with Media Grid modal)","Amaya, Kevin - Contractor {PEP} <Kevin.Amaya.Contractor@pepsico.com>","In Progress",,"8/20/2025 2:09:00 AM","8/20/2025 7:00:00 AM"
+"23563","User Story","[FE] [Visual QA] Social Share: break line words enhancement","Nguyen, Henry - Contractor {PEP} <Henry.Nguyen.Contractor@pepsico.com>","In Progress",,,"8/20/2025 7:00:00 AM"
+"23568","User Story","[FE] Billboard Split Screen: H1 Enhancement for Mobile view","Bui, Harvey - Contractor {PEP} <Harvey.Bui.Contractor@pepsico.com>","New",,"8/15/2025 7:00:00 AM","8/18/2025 7:00:00 AM"
