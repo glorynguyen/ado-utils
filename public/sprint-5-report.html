@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bi-Weekly Progress Report - Sprint 5</title>
+    <link rel="stylesheet" href="report.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="report-header">
+            <h1>Bi-Weekly Catchup – 21/08/2025</h1>
+            <p class="subtitle">Pre-Launch Stabilization & Go-Live Preparation</p>
+        </header>
+
+        <section class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p>The past two weeks marked a critical shift from feature development to pre-launch stabilization and
+                integration. The primary focus was on delivering the project's search functionality, which I
+                successfully integrated from the ground up by collaborating with Craig and the Pepsico team on
+                OpenSearch. Alongside this major integration, I completed the Google Tag Manager (GTM) setup, enhanced
+                code quality by creating a reusable Breadcrumb component, and resolved several deployment and
+                configuration issues. Looking ahead, my focus is now entirely on de-risking our go-live. I will be
+                working closely with Craig and Alex to conduct final testing, stabilize our deployment pipeline, and
+                prepare for a seamless launch and post-MVP planning.</p>
+        </section>
+
+        <main class="report-grid">
+            <div class="card highlights">
+                <div class="card-header">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Highlights & Key Wins</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>End-to-End Search Feature Delivery:</strong> Successfully led and implemented the
+                            complete OpenSearch integration, now live on our development environment.</li>
+                        <li><strong>Reusable Component Creation for Efficiency:</strong> Developed a new, reusable
+                            Breadcrumb component, reducing code duplication and ensuring UI consistency.</li>
+                        <li><strong>Critical Go-Live Integrations Completed:</strong> Integrated Google Tag Manager
+                            (GTM) and a robots.txt file, ensuring we are technically ready for launch.</li>
+                        <li><strong>Infrastructure Stabilization & Proactive Problem-Solving:</strong> Resolved key
+                            blockers, including reCAPTCHA and staging deployment issues, ensuring team effectiveness.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card contributions">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>My Contributions & Focus</h3>
+                </div>
+                <div class="card-body">
+                    <div class="progress-item">
+                        <div class="progress-label">Feature Implementation & Integration</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 50%;">50%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">Technical Leadership & Go-Live Prep</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 30%;">30%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">Bug Fixing & QA Support</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 20%;">20%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card challenges">
+                <div class="card-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Challenges Faced</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Third-Party Integration Complexity:</strong> The OpenSearch setup required a complex
+                            local proxy and close coordination with the Pepsico team, demanding significant effort.</li>
+                        <li><strong>Deployment Pipeline Instability:</strong> A new issue with the CI/CD pipeline not
+                            triggering automatically poses a risk to our deployment workflow.</li>
+                        <li><strong>Last-Minute Data Model Changes:</strong> Adapting all components to the new "Bynder
+                            Image" field required coordinated refactoring late in the project timeline.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card plans">
+                <div class="card-header">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Plans for the Next 2 Weeks</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Goal:</strong> A smooth, successful, and on-time go-live.</p>
+                    <div class="priorities">
+                        <div class="priority-item">
+                            <div class="priority-header">
+                                <span>P1</span>
+                                <strong>Go-Live Readiness:</strong>
+                            </div>
+                            <p class="priority-details">Conduct thorough end-to-end testing, resolve final bugs, and
+                                verify all production configurations.</p>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-header">
+                                <span>P2</span>
+                                <strong>Code & Infrastructure Stability:</strong>
+                            </div>
+                            <p class="priority-details">Resolve the outstanding CI/CD trigger issue for a reliable
+                                launch and prepare for a stable handoff.</p>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-header">
+                                <span>P3</span>
+                                <strong>Post-MVP Planning:</strong>
+                            </div>
+                            <p class="priority-details">Begin documenting technical items and potential enhancements for
+                                the post-MVP phase.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card support-needs full-width">
+                <div class="card-header">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Support Needs</h3>
+                </div>
+                <div class="card-body">
+                    <p>N/A</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
