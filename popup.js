@@ -176,6 +176,39 @@ function setupChatSend() {
 }
 
 
+function setupGenerateSlackMessage() {
+  const generateButton = document.getElementById('generateSlackMessage');
+  generateButton.addEventListener('click', async () => {
+    // 1. Get the current active tab to retrieve its URL
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (tab && tab.url) {
+      const prLink = tab.url;
+
+      // 2. Construct the message using Slack's link markdown format: <URL|Link Text>
+      const slackMessage = `${prLink}\n@here please help me to review above PR`;
+
+      try {
+        // 3. Copy the generated message to the clipboard
+        await navigator.clipboard.writeText(slackMessage);
+
+        // 4. Provide user feedback
+        const originalText = generateButton.textContent;
+        generateButton.textContent = 'Copied!';
+        setTimeout(() => {
+          generateButton.textContent = originalText;
+        }, 2000); // Revert text after 2 seconds
+      } catch (err) {
+        console.error('Failed to copy text to clipboard: ', err);
+        alert('Could not copy text to clipboard.');
+      }
+    } else {
+      console.error('Could not get the active tab URL.');
+      alert('Could not find the URL of the current page.');
+    }
+  });
+}
+
 function setupPullRequestsButton() {
   const pullRequests = document.getElementById('pullRequests');
   pullRequests.addEventListener('click', async () => {
@@ -237,5 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTabSwitching();
   setupChatSend();
   setupPullRequestsButton();
+  setupGenerateSlackMessage();
   setupFillButton();
 });
