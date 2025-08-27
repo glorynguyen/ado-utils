@@ -97,7 +97,7 @@
 <body>
 
     <div class="container">
-        <h1>Front-End Bug Analysis Report - Sprint 5 (Revised)</h1>
+        <h1>Front-End Bug Analysis Report - Sprint 5</h1>
         <p style="text-align: center; color: #6c757d;">An analysis of the 36 bugs reported in Sprint 5 to identify root causes and establish a clear action plan for quality improvement.</p>
         
         <h2>Executive Summary</h2>
@@ -160,19 +160,14 @@
             <p>To address these root causes and improve our quality moving forward, the following actions are recommended:</p>
             <ol>
                 <li>
-                    <strong>Introduce "Ticket Refinement" with PM Sign-off:</strong> Before a ticket is moved to "Ready for Dev," it must be reviewed by the Tech Lead and the assigned developer, and formally signed off by the PM. All acceptance criteria and Figma links must be confirmed as final. This prevents "moving target" requirements and ensures everyone is aligned.
+                    <strong>Improve "Ticket Refinement" with PM Sign-off:</strong> If the PM needs to change requirements during development, they must update the ticket first. Developers should always verify the latest version of the ticket before starting or continuing development. This ensures requirements are clear, stable, and prevents misalignment.
                 </li>
                 <li>
-                    <strong>Implement a "Developer QA" Checklist:</strong> Before any Pull Request can be merged, developers must complete a mandatory checklist. This will include items like "Verified UI against Figma on all specified viewports", "Tested all interactive states", and "Manually tested core functionality".
+                    <strong>Impove existing PR Checklist:</strong> Before any Pull Request can be merged, developers must complete a mandatory checklist. This will include items like "Verified UI against Figma on all specified viewports", "Tested all interactive states", and "Manually tested core functionality".
+                    <img style="width: 100%;" src="images/self-test-ui-evidence.png">
                 </li>
                 <li>
-                    <strong>Mandate Accessibility Training & Standards:</strong> Schedule workshops for the FE team focusing on WCAG standards and practical implementation of ARIA attributes. We must update our Definition of Done to include accessibility checks for all new UI components.
-                </li>
-                <li>
-                    <strong>Integrate Automated Accessibility Testing:</strong> Introduce tools like `axe-core` into our CI/CD pipeline to catch common accessibility violations automatically, providing developers with instant feedback.
-                </li>
-                <li>
-                    <strong>Prioritize Refactoring for Problematic Components:</strong> Dedicate technical debt stories in the upcoming sprints to refactor and harden the most problematic components: Global Navigation, Secondary Nav, and Search Result. This should include improving code structure and adding comprehensive tests.
+                    <strong>Integrate Automated Accessibility Testing:</strong> Mandate Pre-PR Accessibility Audits with Browser Tools: Before a Pull Request can be created, developers must run an automated accessibility audit using a browser extension like <a target="_blank" href="https://chromewebstore.google.com/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd">Axe DevTools</a>. A screenshot showing zero "Critical" violations must be included in the PR description as evidence of the check. This provides immediate feedback and serves as a quality gate before peer review.
                 </li>
             </ol>
         </div>
