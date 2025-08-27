@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FE Bug Analysis Report - Sprint 5</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1, h2, h3 {
+            color: #1a1a1a;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            color: #0056b3;
+        }
+        .summary-cards {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background-color: #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            flex-basis: 200px;
+            flex-grow: 1;
+            border-left: 5px solid #007bff;
+        }
+        .card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .card .label {
+            font-size: 1.1em;
+            color: #6c757d;
+        }
+        .chart-container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .analysis-section p, .analysis-section li {
+            font-size: 1.1em;
+            color: #495057;
+        }
+        .analysis-section h3 {
+            border-bottom: none;
+            color: #0056b3;
+            margin-top: 25px;
+        }
+        .action-plan ol {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .action-plan li {
+            background: #f1f3f5;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #28a745;
+            position: relative;
+        }
+        .action-plan li::before {
+            content: "✔";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Front-End Bug Analysis Report - Sprint 5 (Revised)</h1>
+        <p style="text-align: center; color: #6c757d;">An analysis of the 36 bugs reported in Sprint 5 to identify root causes and establish a clear action plan for quality improvement.</p>
+        
+        <h2>Executive Summary</h2>
+        <div class="summary-cards">
+            <div class="card" style="border-color: #dc3545;">
+                <div class="number">18</div>
+                <div class="label">Avoidable by UI Self-Test</div>
+            </div>
+            <div class="card" style="border-color: #ffc107;">
+                <div class="number">10</div>
+                <div class="label">Accessibility Bugs</div>
+            </div>
+            <div class="card" style="border-color: #17a2b8;">
+                <div class="number">7</div>
+                <div class="label">Edge Case / Functional</div>
+            </div>
+            <div class="card" style="border-color: #6f42c1;">
+                <div class="number">1</div>
+                <div class="label">Requirement Mismatch</div>
+            </div>
+        </div>
+
+        <h2>Bug Categorization</h2>
+        <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <h2>Bugs by Component</h2>
+        <div class="chart-container">
+            <canvas id="componentChart"></canvas>
+        </div>
+
+        <div class="analysis-section">
+            <h2>Root Cause Analysis</h2>
+            <p>The data from Sprint 5's bugs points to four primary areas of concern:</p>
+            
+            <h3>1. Communication Gaps and Unclear Requirements</h3>
+            <p>
+                A new category of issue was identified this sprint. The bug <strong>#23631 ([FE][Search Result] Redundant X icon)</strong> was logged by QA based on the ticket's requirements, but the Product Manager's actual expectation had changed without the ticket being updated. This highlights a critical process issue where development and QA are working off outdated information, leading to wasted effort in logging, investigating, and resolving non-issues.
+            </p>
+
+            <h3>2. Insufficient Developer Self-Testing</h3>
+            <p>
+                A significant number of bugs (<strong>18 out of 36, or 50%</strong>) are visual or functional defects that could have been caught by the developer before creating a pull request. This includes UI not matching Figma, components overlapping, and incorrect responsive behavior. This suggests a process gap where developers may not be thoroughly validating their work against the provided designs and requirements.
+            </p>
+
+            <h3>3. Lack of Proactive Accessibility Implementation</h3>
+            <p>
+                With <strong>10 bugs (28%)</strong> directly related to screen readers and VoiceOver, it's clear that accessibility is not being consistently addressed during development. These issues are often found late in the cycle by QA, whereas they should be an integral part of component creation. This indicates a potential knowledge gap or lack of emphasis on accessibility within our team's Definition of Done.
+            </p>
+            
+            <h3>4. Component Complexity and Technical Debt</h3>
+            <p>
+                A few components account for a disproportionately large number of bugs. Specifically, <strong>Global Navigation (8 bugs), Secondary Nav (5 bugs), and Search Result (4 bugs)</strong> make up 47% of all reported issues. This concentration suggests these components may be overly complex or have accumulated technical debt, making them prone to regressions.
+            </p>
+        </div>
+
+        <div class="action-plan">
+            <h2>Proposed Action Plan</h2>
+            <p>To address these root causes and improve our quality moving forward, the following actions are recommended:</p>
+            <ol>
+                <li>
+                    <strong>Introduce "Ticket Refinement" with PM Sign-off:</strong> Before a ticket is moved to "Ready for Dev," it must be reviewed by the Tech Lead and the assigned developer, and formally signed off by the PM. All acceptance criteria and Figma links must be confirmed as final. This prevents "moving target" requirements and ensures everyone is aligned.
+                </li>
+                <li>
+                    <strong>Implement a "Developer QA" Checklist:</strong> Before any Pull Request can be merged, developers must complete a mandatory checklist. This will include items like "Verified UI against Figma on all specified viewports", "Tested all interactive states", and "Manually tested core functionality".
+                </li>
+                <li>
+                    <strong>Mandate Accessibility Training & Standards:</strong> Schedule workshops for the FE team focusing on WCAG standards and practical implementation of ARIA attributes. We must update our Definition of Done to include accessibility checks for all new UI components.
+                </li>
+                <li>
+                    <strong>Integrate Automated Accessibility Testing:</strong> Introduce tools like `axe-core` into our CI/CD pipeline to catch common accessibility violations automatically, providing developers with instant feedback.
+                </li>
+                <li>
+                    <strong>Prioritize Refactoring for Problematic Components:</strong> Dedicate technical debt stories in the upcoming sprints to refactor and harden the most problematic components: Global Navigation, Secondary Nav, and Search Result. This should include improving code structure and adding comprehensive tests.
+                </li>
+            </ol>
+        </div>
+
+    </div>
+
+    <script>
+        // Data for Charts
+        const categoryData = {
+            labels: ['Avoidable by UI Self-Test', 'Accessibility Bugs', 'Edge Case / Functional', 'Requirement Mismatch'],
+            datasets: [{
+                label: 'Number of Bugs',
+                data: [18, 10, 7, 1],
+                backgroundColor: [
+                    'rgba(220, 53, 69, 0.7)',
+                    'rgba(255, 193, 7, 0.7)',
+                    'rgba(23, 162, 184, 0.7)',
+                    'rgba(111, 66, 193, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(220, 53, 69, 1)',
+                    'rgba(255, 193, 7, 1)',
+                    'rgba(23, 162, 184, 1)',
+                    'rgba(111, 66, 193, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const componentData = {
+            labels: ['Global Navigation', 'Secondary Nav', 'Search Result', 'Featured Media', 'Card Carousel', 'In-Page Navigation', 'Image RCE', 'Dynamic Product Grid', 'Other Components'],
+            datasets: [{
+                label: 'Number of Bugs per Component',
+                data: [8, 5, 4, 3, 2, 2, 2, 2, 8],
+                backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Render Category Chart (Doughnut)
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: categoryData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Bug Distribution by Category'
+                    }
+                }
+            }
+        });
+
+        // Render Component Chart (Bar)
+        const componentCtx = document.getElementById('componentChart').getContext('2d');
+        const componentChart = new Chart(componentCtx, {
+            type: 'bar',
+            data: componentData,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Top Bug-Prone Components'
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
