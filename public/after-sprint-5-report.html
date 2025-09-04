@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bi-Weekly Progress Report - Sprint 6</title>
+    <link rel="stylesheet" href="report.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="report-header">
+            <h1>Bi-Weekly Catchup – 04/09/2025</h1>
+            <p class="subtitle">Final Go-Live Preparations & Core System Enhancements</p>
+        </header>
+
+        <section class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p>This period was dedicated to finalizing all critical components for a successful launch. A major achievement was architecting and delivering a high-performance, build-time redirect system, which significantly boosts site resilience and speed by removing runtime dependencies. I also completed key go-live tasks, including implementing server-side sitemap generation and finalizing Google Tag Manager (GTM) tracking. My focus has been on enhancing the core user experience by improving search functionality with features like search pills, addressing accessibility issues, and resolving production-environment bugs. The next two weeks are entirely focused on executing the go-live checklist, stabilizing the production environment, and planning for post-launch feature enhancements to ensure a smooth transition and continued success.</p>
+        </section>
+
+        <main class="report-grid">
+            <div class="card highlights">
+                <div class="card-header">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Highlights & Key Wins</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Architected a Zero-Latency Redirect System:</strong> Designed and implemented a robust build-time data fetching strategy and middleware for handling ~200 URLs, ensuring maximum performance and resilience.</li>
+                        <li><strong>Delivered Production-Ready SEO & Analytics:</strong> Implemented server-side sitemap generation with caching for performance and finalized GTM tracking for key user actions (brand/article views, downloads).</li>
+                        <li><strong>Enhanced Core Search & Accessibility:</strong> Shipped UI/UX improvements including search pills and layout fixes, while also resolving critical accessibility issues with Voice Over on the search results page.</li>
+                        <li><strong>Proactively Stabilized Production Environment:</strong> Collaborated with team members to resolve production preview issues and implemented environment flags to prevent demo data leakage, de-risking the final deployment.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card contributions">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>My Contributions & Focus</h3>
+                </div>
+                <div class="card-body">
+                    <div class="progress-item">
+                        <div class="progress-label">Feature Implementation & Integration</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 45%;">45%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">Technical Leadership & Go-Live Prep</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 35%;">35%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-label">Bug Fixing & QA Support</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 20%;">20%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card challenges">
+                <div class="card-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Challenges Faced</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Resolving Production Environment Discrepancies:</strong> The production preview environment presented unique issues that required close collaboration with Maha and Craig to diagnose and resolve.</li>
+                        <li><strong>Complex Accessibility Implementation:</strong> Ensuring the search results page was fully compliant with Voice Over required detailed testing and iterative fixes to meet accessibility standards.</li>
+                        <li><strong>Addressing Pre-Launch Bug Influx:</strong> A noticeable increase in bugs from the previous sprint required dedicated time to investigate root causes and ensure platform stability before launch.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card plans">
+                <div class="card-header">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Plans for the Next 2 Weeks</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Goal:</strong> Execute a flawless go-live and establish a stable foundation for post-launch operations.</p>
+                    <div class="priorities">
+                        <div class="priority-item">
+                            <div class="priority-header">
+                                <span>P1</span>
+                                <strong>Final Go-Live Checklist & Deployment:</strong>
+                            </div>
+                            <p class="priority-details">Complete the production go-live checklist, prepare the environment, and handle 404/redirect requests from Pepsico.</p>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-header">
+                                <span>P2</span>
+                                <strong>Platform Stability & Editor Experience:</strong>
+                            </div>
+                            <p class="priority-details">Collaborate with Craig to resolve any outstanding Experience Editor issues and improve site-wide accessibility for all users.</p>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-header">
+                                <span>P3</span>
+                                <strong>Post-Launch Feature Enhancements:</strong>
+                            </div>
+                            <p class="priority-details">Begin work on "nice-to-have" features, such as enhancing global search suggestions and optimizing OpenSearch indexing fields.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card support-needs full-width">
+                <div class="card-header">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Support Needs</h3>
+                </div>
+                <div class="card-body">
+                    <p>N/A</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
