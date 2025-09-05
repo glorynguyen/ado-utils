@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front-End Go-Live Checklist - Pepsico Launch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --text-light: #667;
+            --header-color: #1e3a5f;
+            --primary-color: #0052cc;
+            --border-color: #dfe1e6;
+            --shadow-color: rgba(29, 58, 95, 0.1);
+
+            --status-done: #00875A;
+            --status-inprogress: #0052CC;
+            --status-todo: #FFAB00;
+            --status-onhold: #42526E;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2em;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .report-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--header-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .report-header .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-light);
+        }
+
+        .executive-summary {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .executive-summary h2 {
+            font-size: 1.5rem;
+            color: var(--header-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--primary-color);
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--header-color);
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .checklist-item {
+            margin-bottom: 1.5rem;
+        }
+        .checklist-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .checklist-header strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2em 0.8em;
+            border-radius: 12px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status.done { background-color: var(--status-done); }
+        .status.in-progress { background-color: var(--status-inprogress); }
+        .status.todo { background-color: var(--status-todo); }
+        .status.on-hold { background-color: var(--status-onhold); }
+
+        .checklist-details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin: 0;
+            padding-left: 0.5rem;
+            border-left: 3px solid #eee;
+        }
+        
+        @media (max-width: 900px) {
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="report-header">
+            <h1>Front-End Go-Live Checklist</h1>
+            <p class="subtitle">Pepsico Launch: Final Readiness & Deployment Status</p>
+        </header>
+
+        <section class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p>This document provides a comprehensive overview of the front-end application's readiness for the Pepsico launch. It outlines the status of critical technical areas including performance, deployment infrastructure, SEO, and error monitoring. The checklist below details the progress, ownership, and next steps for each item, ensuring all front-end requirements are met for a stable, performant, and successful production deployment.</p>
+        </section>
+
+        <main class="report-grid">
+            <div class="card performance">
+                <div class="card-header">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Performance & Caching</h3>
+                </div>
+                <div class="card-body">
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Core Web Vitals (CWV) Audit</strong>
+                            <span class="status in-progress">In Progress</span>
+                        </div>
+                        <p class="checklist-details">Final performance audit is underway using Lighthouse on the production environment. Goal is to meet "Good" thresholds for LCP, FID, and CLS.</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Image Optimization Strategy</strong>
+                            <span class="status in-progress">In Progress</span>
+                        </div>
+                        <p class="checklist-details">Verifying our custom image loader correctly resizes and optimizes images from both Bynder and the Sitecore media library.</p>
+                    </div>
+                     <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Caching Strategy Verification</strong>
+                            <span class="status done">Done</span>
+                        </div>
+                        <p class="checklist-details">Strategy confirmed: All pages use ISR. The sitemap is SSR with a 30-minute CDN cache. No further action needed.</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Bundle Size Analysis</strong>
+                            <span class="status in-progress">In Progress</span>
+                        </div>
+                        <p class="checklist-details">Will run bundle analysis to identify and eliminate large JS packages, ensuring a fast initial page load for users.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card build">
+                <div class="card-header">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Build, Deployment & Environment</h3>
+                </div>
+                <div class="card-body">
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Production Environment Variables</strong>
+                            <span class="status in-progress">In Progress</span>
+                        </div>
+                        <p class="checklist-details">Working with Craig to finalize the complete list of production environment variables and ensure they are securely configured.</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>CI/CD Pipeline Readiness</strong>
+                            <span class="status todo">To Do</span>
+                        </div>
+                        <p class="checklist-details">Action Item: Confirm with Maha that the CI/CD pipeline is fully configured for production, including all quality gates (tests, linting).</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Rollback Plan</strong>
+                            <span class="status todo">To Do</span>
+                        </div>
+                        <p class="checklist-details">Action Item: Connect with Maha to document and confirm the official rollback procedure for the production application.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card seo">
+                <div class="card-header">
+                    <i class="fas fa-search-dollar"></i>
+                    <h3>SEO & Analytics</h3>
+                </div>
+                <div class="card-body">
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>robots.txt File</strong>
+                            <span class="status done">Done</span>
+                        </div>
+                        <p class="checklist-details">The production-ready `robots.txt` file has been implemented, correctly referencing the sitemap.</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Analytics & Tag Manager</strong>
+                            <span class="status todo">To Do</span>
+                        </div>
+                        <p class="checklist-details">Action Item: Schedule final testing with the relevant stakeholder to verify all GTM events fire correctly on load and route changes.</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Structured Data (Schema.org)</strong>
+                            <span class="status on-hold">On Hold</span>
+                        </div>
+                        <p class="checklist-details">This is a post-launch consideration. Will discuss with the PM for inclusion in a future phase if required.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card monitoring">
+                <div class="card-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Error Handling & Monitoring</h3>
+                </div>
+                <div class="card-body">
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Client-Side Error Tracking</strong>
+                            <span class="status todo">To Do</span>
+                        </div>
+                        <p class="checklist-details">Action Item: Discuss with the PM to confirm the need for a tool like Sentry to proactively monitor for JavaScript errors in production.</p>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Custom 500 Page</strong>
+                            <span class="status todo">To Do</span>
+                        </div>
+                        <p class="checklist-details">Action Item: Work with the PM to decide if a custom-styled 500 error page is a launch requirement.</p>
+                    </div>
+                     <div class="checklist-item">
+                        <div class="checklist-header">
+                            <strong>Health Check Endpoint</strong>
+                            <span class="status done">Done</span>
+                        </div>
+                        <p class="checklist-details">The `/api/healthz` endpoint is implemented and ready for uptime monitoring services.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+
+</html>
